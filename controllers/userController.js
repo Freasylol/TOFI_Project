@@ -12,11 +12,11 @@ const generateJwt = (id, email, roleId) => {
 }
 
 class UserController {
-    async getUsers(req, res) {
+    async getAll(req, res) {
         return await User.findAll().then(type => res.json(type));
     }
 
-    async createUser(req, res, next) {
+    async createOne(req, res, next) {
         const {first_name, last_name, email, password, passport_id, birth_date, roleId} = req.body;
         const newUser = await User.findOne({where: {email}});
         if (newUser) {
@@ -49,26 +49,26 @@ class UserController {
         return res.json(token);
     }
 
-    async getOneUser(req, res) {
+    async getOne(req, res) {
         const id = Number(req.params.id);
         const user = await User.findOne({where: {id: id}});
         return res.json(user);
     }
 
-    async updateUser(req, res) {
+    async updateOne(req, res) {
         const id = Number(req.params.id);
         const {first_name, last_name, email, password, passport_id, birth_date, roleId} = req.body;
         const user = await User.update({first_name, last_name, email, password, passport_id, birth_date, roleId}, {where: {id: id}});
         return res.json(user);
     }
 
-    async delete(req, res) {
-        db.Users.destroy({
+    async deleteOne(req, res) {
+        User.destroy({
           where: {
             id: req.body.id
           }
         })
-      }
+    }
 }
 
 module.exports = new UserController();

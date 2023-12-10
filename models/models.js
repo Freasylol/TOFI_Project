@@ -32,7 +32,7 @@ const Deposit = sequelize.define('deposit', {
     sum: {type: DataTypes.DOUBLE},
     date: {type: DataTypes.DATE},
     term: {type: DataTypes.DATE},
-    procent: {type: DataTypes.DOUBLE},
+    percent: {type: DataTypes.DOUBLE},
 })
 
 const Credit = sequelize.define('credit', {
@@ -64,8 +64,10 @@ Credit.belongsTo(BankAccount);
 BankAccount.hasMany(Deposit);
 Deposit.belongsTo(BankAccount);
 
-BankAccount.hasMany(Transaction);
+BankAccount.hasMany(Transaction, {foreignKey: 'DestinationBankAccountId'});
+BankAccount.hasMany(Transaction, {foreignKey: 'SenderBankAccountId'});
 Transaction.belongsTo(BankAccount, {foreignKey: 'DestinationBankAccountId'});
+Transaction.belongsTo(BankAccount, {foreignKey: 'SenderBankAccountId'});
 
 module.exports = {
     User, 
