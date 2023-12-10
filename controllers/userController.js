@@ -61,6 +61,14 @@ class UserController {
         const user = await User.update({first_name, last_name, email, password, passport_id, birth_date, roleId}, {where: {id: id}});
         return res.json(user);
     }
+
+    async delete(req, res) {
+        db.Users.destroy({
+          where: {
+            id: req.body.id
+          }
+        })
+      }
 }
 
 module.exports = new UserController();
