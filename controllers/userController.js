@@ -85,14 +85,13 @@ class UserController {
     }
 
     async verify(req, res) {
-        console.log('bebra');
         if (!myVar) {
             myVar.setMyVariable('');
         }
         if (req.body.message === myVar.getMyVariable()) {
-            return res.json('success')
+            return res.json('Successful authentication')
         } else {
-            return res.json('bebra')
+            return res.json('Unsuccessful authentication')
         }
     }
 

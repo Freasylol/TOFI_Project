@@ -86,17 +86,9 @@ const DashBoard = () => {
                         <img src={bankIcon} height={30} alt="Bank App Icon"></img>
                     </div>  
                              
-                <div>
-                    <Button className={classes.logInButton} color="inherit" variant="outlined" onClick={handleOpenLogInDialog}>Log in
-                    <Dialog  fullScreen={fullScreen} open ={openLogInDialog} onClose={handleCloseLogInDialog} aria-labelledby='loginForm'>
-                        <LoginForm close={handleCloseLogInDialog} />
-                    </Dialog>
-                    </Button>
-                  
-                    <Button color="secondary" variant="contained" onClick={handleOpenSignUpDialog}>Sign up</Button>
-                    <Dialog className={classes.dialog} open ={openSignUpDialog} onClose={handleCloseSignUpDialog} aria-labelledby='registrationForm'>
-                        <RegistrationForm />
-                    </Dialog>
+                <div style={{display: "flex"}}>
+                    <LoginForm />
+                    <RegistrationForm />
                 </div>
             </Toolbar>
         </Container>

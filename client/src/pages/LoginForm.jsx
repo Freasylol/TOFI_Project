@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Dialog, useTheme, useMediaQuery, DialogActions, Button } from '@material-ui/core';
 import { jwtDecode } from 'jwt-decode';
 import { Context } from '../index';
 import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
-import UserStore from '../store/userStore';
+
 
 const useStyles = makeStyles((theme) => ({
     signUp: {
@@ -57,48 +57,84 @@ const useStyles = makeStyles((theme) => ({
     singUpLabel: {
         fontSize: '20px'
     },
-    form: {
-        display: 'block',
-        fontFamily: 'Arial Helvetica, sans-serif',
-        position: 'relative',
-        padding: '0 24px 24px 24px',
-        margin: 'auto',
-    },
-    error: {
-        color: 'red',
-        fontWeight: 700,
-        fontSize: '13px',
-    } 
 }))
 
-const LoginForm = observer(({close}) => {
+
+const LoginForm = observer(() => {
     const classes = useStyles();
+    const theme = useTheme();
+
+    const[openAuthDialog, setAuthDialog] = useState(false);
+
+    const handleOpenAuthDialog = () => setAuthDialog(true);
+
+    const handleCloseAuthDialog = () => setAuthDialog(false);
+
+    const handleOpenLogInDialog = () => setOpenLogInDialog(true);
+
+    const handleCloseLogInDialog = () => {
+        console.log('close');
+        setOpenLogInDialog(false);
+    } 
+
+    const handleCloseLogInDialogOpenAuth = () => {
+        setOpenLogInDialog(false);
+        handleOpenAuthDialog();
+    }
+
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const[openLogInDialog, setOpenLogInDialog] = useState(false);
 
     const {user} = useContext(Context);
 
-    const [open, setOpen] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [auth, setAuth] = useState('');
+
+    const [token, setToken] = useState('');
 
     const submitLogin = async (e) => {
         e.preventDefault();
-        try {
+            try {
             const {data} = await Axios.post('http://localhost:3001/user/login', {
                 email: email,
                 password: password,
             })
-            console.log(data);
-            localStorage.setItem('token', data)
-            let jwtData = jwtDecode(data);
-            user.setIsAuth(true);
-            user.setUser(jwtData);
+            setToken(data);
         } catch(error) {
             console.log(error);
         }
     }
 
+    const submitAuth = async (e) => {
+        e.preventDefault();
+        try {
+            await Axios.post('http://localhost:3001/user/verify', {
+                message: auth,
+            }).then((data) => {
+                console.log(data);
+                localStorage.setItem('token', token)
+                let jwtData = jwtDecode(token);
+                user.setIsAuth(true);
+                user.setUser(jwtData);
+                // const userData = jwtDecode(data.data);
+                // user.setUser(userData);
+                // user.setIsAuth(true);
+                // console.log(user);
+            })
+        } catch(error) {
+            console.log(error);
+        } 
+
+
+    }
+
   return (
-    <div className={classes.signUp}>
+<div>
+    <Button className={classes.logInButton} color="inherit" variant="outlined" onClick={handleOpenLogInDialog}>Log in</Button>
+        <Dialog fullScreen={fullScreen} open={openLogInDialog} onClose={handleCloseLogInDialog} aria-labelledby='loginForm'>
+        <div className={classes.signUp}>
         <form className={classes.signUpForm} onSubmit={submitLogin}>
             <div>
                 Sign in your account
@@ -124,13 +160,42 @@ const LoginForm = observer(({close}) => {
                     required>
                 </input>
             </div>
-            <button type="submit" onClick={close} className={classes.signUpButton}>
+            <button type="submit" onClick={handleCloseLogInDialogOpenAuth} className={classes.signUpButton}>
                 <div className={classes.signUpButtonText}>
                     Sign In
                 </div>
             </button>
         </form>
-    </div> 
+        </div> 
+        </Dialog>
+        <Dialog fullScreen={fullScreen} open={openAuthDialog} onClose={handleCloseAuthDialog} aria-labelledby='authForm'>
+            <div className={classes.signUp}>
+                <form className={classes.signUpForm} onSubmit={submitAuth}>
+                <div>
+                    Double auth 
+                </div>
+                <div>
+                    <label className={classes.singUpLabel}>Auth code</label>
+                    <input  
+                        type="text" 
+                        value={auth} 
+                        onChange={(e) => setAuth(e.target.value)}
+                        className={classes.signUpInput}  
+                        // pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
+                        required>
+                    </input>
+                </div>
+                <button type="submit" onClick={handleCloseAuthDialog} className={classes.signUpButton}>
+                    <div className={classes.signUpButtonText}>
+                        Auth
+                    </div>
+                </button>
+            </form>
+            </div>
+        </Dialog>
+    </div>
+
+    
   )
 })
 

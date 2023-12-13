@@ -1,6 +1,7 @@
 import React, {createContext} from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom/client';
 import './index.css';
+import {render} from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserStore from './store/userStore';
@@ -9,7 +10,8 @@ import DeviceStore from './store/ObjectStore';
 export const Context = createContext(null); 
 console.log(process.env.REACT_APP_API_URL);
 
-ReactDOM.render(
+const root = document.getElementById('root');
+render(
     <Context.Provider value ={{
         user: new UserStore,
         object: new DeviceStore
@@ -21,10 +23,8 @@ ReactDOM.render(
         </div>,
         
     </Context.Provider>,
-    document.getElementById('root')
- 
+    root
 );
-
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

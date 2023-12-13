@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import Axios from 'axios';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Dialog, useTheme, useMediaQuery, DialogActions, Button } from '@material-ui/core';
 import {observer} from 'mobx-react-lite';
 import { jwtDecode } from 'jwt-decode';
 import { Context } from '../index';
@@ -74,6 +74,12 @@ const RegistrationForm = observer(() => {
 
     const {user} = useContext(Context);
 
+    const handleOpenSignUpDialog = () => setOpenSignUpDialog(true);
+    
+    const handleCloseSignUpDialog = () => setOpenSignUpDialog(false);
+
+    const[openSignUpDialog, setOpenSignUpDialog] = useState(false);
+
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [birth_date, setBirthDate] = useState('');
@@ -102,98 +108,102 @@ const RegistrationForm = observer(() => {
             })
         } catch(error) {
             console.log(error);
-        }
-       
+        } 
     }
 
   return (
-    <div className={classes.signUp}>
-        <form className={classes.signUpForm} onSubmit={submitRegistration}>
-            <div class="sign-up__form-header">
-                Let’s create your user account
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Name</label>
-                <input 
-                    type="text" 
-                    value={first_name}
-                    onChange={(e) => setFirstName(e.target.value)} 
-                    className={classes.signUpInput}
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Last Name</label>
-                <input
-                    type="text"
-                    value={last_name} 
-                    onChange={(e) => setLastName(e.target.value)}
-                    className={classes.signUpInput}
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Date Of Birth</label>
-                <input 
-                    type="text"
-                    value={birth_date} 
-                    onChange={(e) => setBirthDate(e.target.value)}
-                    className={classes.signUpInput}
-                    pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Passport ID</label>
-                <input 
-                    type="text"
-                    value={passport_id} 
-                    onChange={(e) => setPassportId(e.target.value)}
-                    className={classes.signUpInput} 
-                    pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Email</label>
-                <input  
-                    type="text" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    className={classes.signUpInput}  
-                    pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Password</label>
-                <input 
-                    type="text" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className={classes.signUpInput}
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-item">
-                <label className={classes.singUpLabel}>Confirm Password</label>
-                <input 
-                    type="text" 
-                    value={confirm_password} 
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    className={classes.signUpInput}
-                    required>
-                </input>
-            </div>
-            <div class="sign-up__form-hints">          
-            </div>
-            <button type="submit" className={classes.signUpButton}>
-                <div className={classes.signUpButtonText}>
-                    Sign up
+<div>
+    <Button color="secondary" variant="contained" onClick={handleOpenSignUpDialog}>Sign up</Button>
+    <Dialog className={classes.dialog} open ={openSignUpDialog} onClose={handleCloseSignUpDialog} aria-labelledby='registrationForm'>
+        <div className={classes.signUp}>
+            <form className={classes.signUpForm} onSubmit={submitRegistration}>
+                <div class="sign-up__form-header">
+                    Let’s create your user account
                 </div>
-            </button>
-        </form>
-    </div> 
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Name</label>
+                    <input 
+                        type="text" 
+                        value={first_name}
+                        onChange={(e) => setFirstName(e.target.value)} 
+                        className={classes.signUpInput}
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Last Name</label>
+                    <input
+                        type="text"
+                        value={last_name} 
+                        onChange={(e) => setLastName(e.target.value)}
+                        className={classes.signUpInput}
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Date Of Birth</label>
+                    <input 
+                        type="text"
+                        value={birth_date} 
+                        onChange={(e) => setBirthDate(e.target.value)}
+                        className={classes.signUpInput}
+                        pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Passport ID</label>
+                    <input 
+                        type="text"
+                        value={passport_id} 
+                        onChange={(e) => setPassportId(e.target.value)}
+                        className={classes.signUpInput} 
+                        pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Email</label>
+                    <input  
+                        type="text" 
+                        value={email} 
+                        onChange={(e) => setEmail(e.target.value)}
+                        className={classes.signUpInput}  
+                        pattern="^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$" 
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Password</label>
+                    <input 
+                        type="text" 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className={classes.signUpInput}
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-item">
+                    <label className={classes.singUpLabel}>Confirm Password</label>
+                    <input 
+                        type="text" 
+                        value={confirm_password} 
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        className={classes.signUpInput}
+                        required>
+                    </input>
+                </div>
+                <div class="sign-up__form-hints">          
+                </div>
+                <button type="submit" onClick={handleCloseSignUpDialog} className={classes.signUpButton}>
+                    <div className={classes.signUpButtonText}>
+                        Sign up
+                    </div>
+                </button>
+            </form>
+        </div> 
+    </Dialog>
+</div>
   )
 })
 
