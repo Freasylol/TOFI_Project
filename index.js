@@ -28,21 +28,19 @@ start();
 const roleRouter = require('./routes/roleRouter');
 const userLogRouter = require('./routes/userLogRouter');
 const userRouter = require('./routes/userRouter');
+const transactionRouter = require('./routes/transactionRouter');
+const bankAccountRouter = require('./routes/bankAccountRouter');
 const { error } = require('console');
 
 app.use(express.json());
 app.use(cors());               
 app.use(express.urlencoded({extended: true}));
 
-// localhost
 app.use('/role', roleRouter);
 app.use('/userlog', userLogRouter);
 app.use('/user', userRouter);
-// app.use('/users', userRouter);
-// app.use('/device', deviceRouter);
-// app.use('/type', typeRouter);
-// app.use('/brand', brandRouter);
-// app.use('/basket', basketRouter);
+app.use('/bankAccount', bankAccountRouter);
+app.use('/transaction', transactionRouter);
 
 app.use(express.static(path.join(__dirname,'/client', 'build')));
 

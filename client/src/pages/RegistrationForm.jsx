@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import {Field, Formik} from "formik";
-import  * as Yup from "yup";
+import React, { useState, useContext } from 'react';
 import Axios from 'axios';
 import { makeStyles } from '@material-ui/core';
+import {observer} from 'mobx-react-lite';
+import { jwtDecode } from 'jwt-decode';
+import { Context } from '../index';
 
 const useStyles = makeStyles((theme) => ({
     signUp: {
@@ -68,8 +69,10 @@ const useStyles = makeStyles((theme) => ({
     } 
 }))
 
-const RegistrationForm = () => {
+const RegistrationForm = observer(() => {
     const classes = useStyles();
+
+    const {user} = useContext(Context);
 
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -79,10 +82,11 @@ const RegistrationForm = () => {
     const [password, setPassword] = useState('');
     const [confirm_password, setConfirmPassword] = useState('');
 
-    const submitRegistration = (e) => {
+    const submitRegistration = async (e) => {
         e.preventDefault();
+
         try {
-            Axios.post('http://localhost:3001/user', {
+            await Axios.post('http://localhost:3001/user', {
                 first_name: first_name,
                 last_name: last_name, 
                 email: email,
@@ -90,20 +94,17 @@ const RegistrationForm = () => {
                 passport_id: passport_id,
                 birth_date: birth_date,
                 roleId: 1,
+            }).then((data) => {
+                const userData = jwtDecode(data.data);
+                user.setUser(userData);
+                user.setIsAuth(true);
+                console.log(user);
             })
         } catch(error) {
             console.log(error);
         }
        
     }
-
-//   const validationSchema = Yup.object().shape({
-//       name: Yup.string().typeError('Should be a string').required('Necessarily'),
-//       lastName: Yup.string().typeError('Should be a string').required('Necessarily'),
-//       password: Yup.string().typeError('Should be a string').required('Necessarily'),
-//       confirmPassword: Yup.string().oneOf([Yup.ref('password')],'passwords do not match').required('Necessarily'),
-//       email: Yup.string().email('enter correct email').required('Necessarily'),
-//   })
 
   return (
     <div className={classes.signUp}>
@@ -194,7 +195,7 @@ const RegistrationForm = () => {
         </form>
     </div> 
   )
-}
+})
 
 export default RegistrationForm;
 

@@ -2,6 +2,8 @@ const {User} = require('../models/models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const ApiError = require('../error/ApiError');
+const nodemailer = require('nodemailer');
+const myVar = require('./myVar');
 
 const generateJwt = (id, email, roleId) => {
     return jwt.sign(
@@ -10,6 +12,35 @@ const generateJwt = (id, email, roleId) => {
         {expiresIn: '24h'}
     )
 }
+
+const sendEmail = async (recipient, subject, content) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'obereg2005.2002@gmail.com',
+      pass: 'qada jcxq afza bsjb '
+    }
+  });
+
+  const mailOptions = {
+    from: 'obereg2005.2002@gmail.com',
+    to: recipient,
+    subject: subject,
+    text: content
+  };
+
+  await transporter.sendMail(mailOptions);
+};
+
+function generateRandom4DigitNumber() {
+    const min = 1000; // Minimum 4-digit number
+    const max = 9999; // Maximum 4-digit number
+  
+    // Generate a random number between min and max (inclusive)
+    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+  
+    return randomNumber;
+  }
 
 class UserController {
     async getAll(req, res) {
@@ -45,13 +76,30 @@ class UserController {
         if (!comparePassword) {
             return next(ApiError.badRequest('Specified incorrect password'));
         }
-        const token = generateJwt(user.id, user.email, user.roleId);
+        const token = generateJwt(user.id, user.email, 1);
+        const random4Digit = generateRandom4DigitNumber();
+        // sendEmail('sashakorostelev49@gmail.com', 'Two-factor authentication Message', String(random4Digit));
+        console.log(String(random4Digit));
+        myVar.setMyVariable(String(random4Digit));
         return res.json(token);
+    }
+
+    async verify(req, res) {
+        console.log('bebra');
+        if (!myVar) {
+            myVar.setMyVariable('');
+        }
+        if (req.body.message === myVar.getMyVariable()) {
+            return res.json('success')
+        } else {
+            return res.json('bebra')
+        }
     }
 
     async getOne(req, res) {
         const id = Number(req.params.id);
         const user = await User.findOne({where: {id: id}});
+        console.log(myVar.getMyVariable());
         return res.json(user);
     }
 

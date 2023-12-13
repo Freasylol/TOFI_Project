@@ -1,23 +1,24 @@
 import React from "react";
 import { AppBar, Container, IconButton, Toolbar, Button, Typography, Box, makeStyles, Dialog, DialogTitle, useTheme, useMediaQuery, Menu, MenuItem, Link} from '@material-ui/core';
-import MenuIcon from '@material-ui/icons/Menu';
 import RegistrationForm from "./RegistrationForm.jsx";
 import LoginForm from "./LoginForm";
 import bankIcon from '../images/money-bags.png';
+// import {Link} from 'react-router-dom';
+// import { Router } from "express";
+// import { NavLink, Link } from "react-router-dom/cjs/react-router-dom.min.js";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1
+        flexGrow: 1,
+        backgroundColor: '#0A092E'
     },
     title: {
         flexGrow: 1
     },
-    container: {
-        backgroundColor: '#0A092E'
-    },
     project: {
         width: '100%',
-        height: '100vh',
+        height: '10vh',
         backgroundColor: '#0A092E',
         color: '#F6F7FB'
     },
@@ -38,6 +39,11 @@ const useStyles = makeStyles((theme) => ({
     logInButton: {
         marginRight: '10px'
     },
+    link: {
+        textDecoration: 'none', 
+        color: "#F6F7FB",
+        cursor: 'pointer'
+    }
 }))
 
 const DashBoard = () => {
@@ -69,37 +75,32 @@ const DashBoard = () => {
 
     return (
     <div className={classes.project}>
+        
         <Container className={classes.container}>
             <div className={classes.overlay} />
             <Toolbar className={classes.navBarContainer}>
-                <div className={classes.leftNavBar}>
-                    <p className={classes.leftNavBarText}>Bank App</p>
-                    <img src={bankIcon} height={30} alt="Bank App Icon"></img>
-                </div>
+                
+                    <div className={classes.leftNavBar}>
+                
+                        <Link href="/" className={[classes.leftNavBarText, classes.link]}>Bank App</Link>
+                        <img src={bankIcon} height={30} alt="Bank App Icon"></img>
+                    </div>  
+                             
                 <div>
-                    <Button className={classes.logInButton} color="inherit" variant="outlined" onClick={handleOpenLogInDialog}>Log in</Button>
+                    <Button className={classes.logInButton} color="inherit" variant="outlined" onClick={handleOpenLogInDialog}>Log in
                     <Dialog  fullScreen={fullScreen} open ={openLogInDialog} onClose={handleCloseLogInDialog} aria-labelledby='loginForm'>
-                        <DialogTitle id="logInFormTitle">
-                            Log in
-                        </DialogTitle>
-                        <LoginForm />
+                        <LoginForm close={handleCloseLogInDialog} />
                     </Dialog>
+                    </Button>
+                  
                     <Button color="secondary" variant="contained" onClick={handleOpenSignUpDialog}>Sign up</Button>
                     <Dialog className={classes.dialog} open ={openSignUpDialog} onClose={handleCloseSignUpDialog} aria-labelledby='registrationForm'>
-                        {/* <DialogTitle id="LogInFormTitle">
-                            Sign up
-                        </DialogTitle> */}
                         <RegistrationForm />
                     </Dialog>
                 </div>
             </Toolbar>
         </Container>
-        {/* <p>Make a deposit</p>
-        <p>Make a credit</p>
-        <p>our deposits, credits etc</p>
-        <p>My profile</p>
-        <p>Create aim</p>
-        <p>Money transfers</p> */}
+        
     </div>
     
     )

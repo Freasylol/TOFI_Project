@@ -1,6 +1,6 @@
 const Router = require('express');
 const router = new Router();
-const userLogController = require('../controllers/transactionController');
+const transactionController = require('../controllers/transactionController');
 
 router.get('/', transactionController.getAll);
 router.post('/', transactionController.createOne);

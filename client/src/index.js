@@ -4,19 +4,25 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import UserStore from './store/userStore';
-import DeviceStore from './store/deviceStore';
-import { Divider } from '@material-ui/core';
+import DeviceStore from './store/ObjectStore';
 
-export const Context = createContext(null);   
+export const Context = createContext(null); 
+console.log(process.env.REACT_APP_API_URL);
 
 ReactDOM.render(
-
-  <div>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </div>,
-  document.getElementById('root')
+    <Context.Provider value ={{
+        user: new UserStore,
+        object: new DeviceStore
+    }}>
+        <div>
+            <React.StrictMode>
+                <App />
+            </React.StrictMode>
+        </div>,
+        
+    </Context.Provider>,
+    document.getElementById('root')
+ 
 );
 
 // If you want to start measuring performance in your app, pass a function

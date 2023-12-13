@@ -5,7 +5,7 @@ const User = sequelize.define('user', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     first_name: {type: DataTypes.STRING},
     last_name: {type: DataTypes.STRING},
-    email: {type: DataTypes.STRING, unique: true},
+    email: {type: DataTypes.STRING},
     password: {type: DataTypes.STRING},
     passport_id: {type: DataTypes.STRING, unique: true},
     birth_date: {type: DataTypes.DATE}
@@ -23,8 +23,9 @@ const UserLog = sequelize.define('user_log', {
 })
 
 const BankAccount = sequelize.define('bank_account', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    balance: {type: DataTypes.INTEGER}
+    accountId: {type: DataTypes.UUID, defaultValue: sequelize.literal('uuid_generate_v4()'), allowNull: false, primaryKey: true},
+    balance: {type: DataTypes.INTEGER},
+    
 })
 
 const Deposit = sequelize.define('deposit', {
