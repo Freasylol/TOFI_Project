@@ -1,102 +1,138 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AppBar, Container, IconButton, Toolbar, Button, Typography, Box, makeStyles, Dialog, DialogTitle, useTheme, useMediaQuery, Menu, MenuItem, Link} from '@material-ui/core';
-import RegistrationForm from "./RegistrationForm.jsx";
-import LoginForm from "./LoginForm";
-import bankIcon from '../images/money-bags.png';
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index.js";
-
+import Axios from "axios";
+import Dropdown from './Dropdown.jsx';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        backgroundColor: '#0A092E'
-    },
-    title: {
-        flexGrow: 1
-    },
-    project: {
-        width: '100%',
-        height: '10vh',
+    test: {
+        paddingTop: '50px',
         backgroundColor: '#0A092E',
+        height: '90vh',
         color: '#F6F7FB'
     },
-    dialog: {
-        backgroundColor: '#0A092E'
+    signUp: {
+        color: '#F6F7FB',
+        backgroundColor: '#0A092E',
+        padding: '20px',
+        boxSizing: 'border-box',
+        margin: 0,
+        fontSize: '24px'
     },
-    leftNavBar: {
+    signUpForm: {
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
     },
-    leftNavBarText: {
-        marginRight: '10px'
+    signUpInput: {
+        border: '1px solid #7E7E7E',
+        borderRadius: '60px',
+        outline: 'none',
+        outlineOffset: '0',
+        lineHeight: '1.5em',
+        padding: '4px 6px',
+        display: 'block',
+        width: '300px',
+        boxSizing: 'border-box',
+        backgroundColor: '#2E3856',
+        color: '#F6F7FB'
     },
-    navBarContainer: {
+    signUpButton: {
+        outline: 'none',
+        border: 'none',
+        backgroundColor: '#4255FF',
+        
         display: 'flex',
-        justifyContent: 'space-between'
+        alignItems: 'center',
+        justifyContent: 'center',
+
+        cursor: 'pointer',
+
+        marginTop: '50px',
+
+        borderRadius: '60px',
+        width: '180px'
     },
-    logInButton: {
-        marginRight: '10px'
+    signUpButtonText: {
+        color: '#0A092E',
+        fontSize: '24px'
     },
-    link: {
-        textDecoration: 'none', 
-        color: "#F6F7FB",
-        cursor: 'pointer'
-    }
+    singUpLabel: {
+        fontSize: '20px'
+    },
 }))
 
-const DashBoard = observer(() => {
+const MakeTransaction = observer(() => {
     const classes = useStyles();
 
     const {user} = useContext(Context);
 
+    const [sum, setSum] = useState('');
+    const [date, setDate] = useState('');
+    const [DestinationBankAccountId, setDestinationBankAccountId] = useState('');
+
+    const createTransaction = async (e) => {
+        e.preventDefault();
+            try {
+            await Axios.post('http://localhost:3001/api/transaction', {
+                sum: sum,
+                date: date,
+                DestinationBankAccountId: DestinationBankAccountId,
+                SenderBankAccountId: user.user.id
+            })
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
     const preventDefault = event => event.preventDefault();
-
-    const theme = useTheme();
-
-    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
-
-    const[openLogInDialog, setOpenLogInDialog] = React.useState(false);
-
-    const[openSignUpDialog, setOpenSignUpDialog] = React.useState(false);
-
-    const[openMenu, setOpenMenu] = React.useState(false);
-
-    const handleOpenMenu = () => setOpenMenu(true);
-
-    const handleCloseMenu = () => setOpenMenu(false);
-
-    const handleOpenLogInDialog = () => setOpenLogInDialog(true);
-
-    const handleCloseLogInDialog = () => setOpenLogInDialog(false);
-
-    const handleOpenSignUpDialog = () => setOpenSignUpDialog(true);
-    
-    const handleCloseSignUpDialog = () => setOpenSignUpDialog(false);
 
     return (
     <div className={classes.project}>
-        
-        <Container className={classes.container}>
-            <div className={classes.overlay} />
-            <Toolbar className={classes.navBarContainer}>
-                
-                    <div className={classes.leftNavBar}>
-                        <Link href="/" className={[classes.leftNavBarText, classes.link]}>Bank App</Link>
-                        <img src={bankIcon} height={30} alt="Bank App Icon"></img>
-                        <div>{user.user.first_name}</div>
-                    </div>  
-                             
-                <div style={{display: "flex"}}>
-                    <LoginForm />
-                    <RegistrationForm />
+        <form className={classes.test} onSubmit={createTransaction}>
+            <div>
+                Make A transaction
+            </div>
+            <div>
+                <label className={classes.singUpLabel}>Sum</label>
+                <input  
+                    type="text" 
+                    value={sum} 
+                    onChange={(e) => setSum(e.target.value)}
+                    className={classes.signUpInput}  
+                    required>
+                </input>
+            </div>
+            <div>
+                <label className={classes.singUpLabel}>Date</label>
+                <input 
+                    type="text" 
+                    value={date}
+                    onChange={(e) => setDate(e.target.value)}
+                    className={classes.signUpInput}
+                    required>
+                </input>
+            </div>
+            <div>
+                <label className={classes.singUpLabel}>DestinationBankAccountId</label>
+                <input 
+                    type="text" 
+                    value={DestinationBankAccountId}
+                    onChange={(e) => setDestinationBankAccountId(e.target.value)}
+                    className={classes.signUpInput}
+                    required>
+                </input>
+            </div>
+            <Dropdown />
+            <button type="submit" className={classes.signUpButton}>
+                <div className={classes.signUpButtonText}>
+                    Create transaction
                 </div>
-            </Toolbar>
-        </Container>
-        
+            </button>
+        </form>
     </div>
-    
     )
 })
 
-export default DashBoard;
+export default MakeTransaction;

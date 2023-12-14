@@ -50,39 +50,12 @@ const DashBoard = observer(() => {
 
     const {user} = useContext(Context);
 
-    const logout = async () => {
-        user.setIsAuth(false);
-    }
-
-    let authBlock = null;
-
-    if (user.isAuth === false) {
-         
-        authBlock = <div style={{display: "flex"}}>
+    return (
+    <div className={classes.project}>        
+        <div style={{display: "flex"}}>
             <LoginForm />
             <RegistrationForm />
         </div>
-    } else {
-        authBlock =
-        <Button color="inherit" variant="outlined" onClick={logout}>
-            Logout
-        </Button>
-    }
-
-    return (
-    <div className={classes.project}>
-        <Container className={classes.container}>
-            <div className={classes.overlay} />
-            <Toolbar className={classes.navBarContainer}>
-                
-                    <div className={classes.leftNavBar}>
-                        <Link href="/" className={[classes.leftNavBarText, classes.link]}>Bank App</Link>
-                        <img src={bankIcon} height={30} alt="Bank App Icon"></img>
-                        <div>{user.user.first_name}</div>
-                    </div>             
-                    {authBlock}
-            </Toolbar>
-        </Container>
     </div>
     
     )

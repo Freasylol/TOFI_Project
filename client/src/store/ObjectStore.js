@@ -12,10 +12,8 @@ export default class DeviceStore {
             {id: 1, startSum: 100, finishSum: 400, date: '2023-12-11', bankAccountId: 1, depositId: 1}
         ]
         this._bankAccounts = [
-            
         ]
         this._transactions = [
-            {id: 1, sum: 100, date: '2023-12-11', term: '2024-12-11', DestinationBankAccountId: 1, SenderBankAccountId: 1}
         ];
         makeAutoObservable(this)
     }

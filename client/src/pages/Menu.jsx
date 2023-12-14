@@ -35,7 +35,6 @@ const Menu = () => {
         <main>
             <Grid container direction="column" md={3}>
                 <div className={classes.mainFeaturePostContent}>
-                    {/* <Router> */}
                         <NavLink to="/">
                             <Button>
                                 Main
@@ -46,13 +45,7 @@ const Menu = () => {
                             <Button>
                                 Admin
                             </Button>
-                        </NavLink>
-                
-                        {/* <Switch>
-                            <Route exact path="/admin" component={Admin} />
-                        </Switch>       
-                    </Router> */}
-                        
+                        </NavLink>  
                 </div>      
             </Grid>
         </main>

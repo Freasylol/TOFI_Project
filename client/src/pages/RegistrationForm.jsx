@@ -90,7 +90,6 @@ const RegistrationForm = observer(() => {
 
     const submitRegistration = async (e) => {
         e.preventDefault();
-
         try {
             await Axios.post('http://localhost:3001/api/user', {
                 first_name: first_name,

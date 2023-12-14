@@ -7,13 +7,26 @@ class BankAccountController {
 
     async createOne(req, res) {
         const {balance, userId} = req.body;
-        const role = await BankAccount.create({balance, userId});
-        return res.json(role);
+        const bankAccount = await BankAccount.create({balance, userId});
+        return res.json(bankAccount);
     }
 
     async getOne(req, res) {
         const id = Number(req.params.id);
         const bankAccount = await BankAccount.findOne({where: {id: id}});
+        return res.json(bankAccount);
+    }
+
+    async findBankAccountByUserid(req, res) {
+        const userId = Number(req.params.userId);
+        const bankAccount = await BankAccount.findAll(
+            {
+                where: {
+                    userId: userId
+                }
+            }
+        )
+
         return res.json(bankAccount);
     }
 

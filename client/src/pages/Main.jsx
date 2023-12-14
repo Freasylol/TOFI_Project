@@ -50,6 +50,9 @@ function Main() {
             <NavLink className={classes.navLinkStyle} to="/profile">My profile</NavLink>
             <NavLink className={classes.navLinkStyle} to="/aim">Create new aim</NavLink>
             <NavLink className={classes.navLinkStyle} to="/transaction">Transactions</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/makeTransaction">Create a transaction</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/bankAccount">My BankAccounts</NavLink>
+
         </div>
     )
 }

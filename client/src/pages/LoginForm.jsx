@@ -6,7 +6,6 @@ import { Context } from '../index';
 import { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 
-
 const useStyles = makeStyles((theme) => ({
     signUp: {
         color: '#F6F7FB',
@@ -87,6 +86,7 @@ const LoginForm = observer(() => {
     const[openLogInDialog, setOpenLogInDialog] = useState(false);
 
     const {user} = useContext(Context);
+    const {object} = useContext(Context);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -117,17 +117,14 @@ const LoginForm = observer(() => {
                 localStorage.setItem('token', token)
                 let jwtData = jwtDecode(token);
                 user.setIsAuth(true);
-                console.log('jwt data');
-                console.log(jwtData);
                 const userData = await Axios.get(`http://localhost:3001/api/user/${jwtData.id}`);
-                console.log(userData.data);
                 user.setUser(userData.data);
+                const bankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${jwtData.id}`);
+                object.setBankAccounts(bankAccountData.data);
             })
         } catch(error) {
             console.log(error);
         } 
-
-
     }
 
   return (
