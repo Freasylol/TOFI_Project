@@ -22,8 +22,6 @@ const Dropdown = observer(() => {
     const handleSelectChange = (event) => {
         setSelectedOption(event.target.value);
     }
-     
-    const options = ['1 option', '2option', '3option'];
 
     return (
         <div>
@@ -31,7 +29,7 @@ const Dropdown = observer(() => {
                 <option value="">Select Variant</option>
                 {object.bankAccounts.map((bankAccount, index) => (
                     <option key={index} value={bankAccount.accountId}>{bankAccount.accountId}</option>
-                ))} 
+                ))}
             </select>
         </div>
     )

@@ -68,18 +68,26 @@ const MakeTransaction = observer(() => {
 
     const {user} = useContext(Context);
 
+    const {object} = useContext(Context);
+
     const [sum, setSum] = useState('');
     const [date, setDate] = useState('');
     const [DestinationBankAccountId, setDestinationBankAccountId] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleSelectChange = (event) => {
+        setSelectedOption(event.target.value);
+    }
 
     const createTransaction = async (e) => {
         e.preventDefault();
             try {
+            const bankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${user.user.id}`);
             await Axios.post('http://localhost:3001/api/transaction', {
                 sum: sum,
                 date: date,
                 DestinationBankAccountId: DestinationBankAccountId,
-                SenderBankAccountId: user.user.id
+                SenderBankAccountId: bankAccountData.data[0].accountId
             })
         } catch(error) {
             console.log(error);
@@ -124,7 +132,15 @@ const MakeTransaction = observer(() => {
                     required>
                 </input>
             </div>
-            <Dropdown />
+            <div>
+                <select value={selectedOption} onChange={handleSelectChange}>
+                    <option value="">Select Variant</option>
+                    {object.bankAccounts.map((bankAccount, index) => (
+                        <option key={index} value={bankAccount.accountId}>{bankAccount.accountId}</option>
+                    ))}
+                </select>
+            </div>
+            {/* <Dropdown /> */}
             <button type="submit" className={classes.signUpButton}>
                 <div className={classes.signUpButtonText}>
                     Create transaction

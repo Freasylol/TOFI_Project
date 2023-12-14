@@ -25,23 +25,20 @@ const userLogRouter = require('./routes/userLogRouter');
 const userRouter = require('./routes/userRouter');
 const transactionRouter = require('./routes/transactionRouter');
 const bankAccountRouter = require('./routes/bankAccountRouter');
+const creditRouter = require('./routes/creditRouter');
+const depositRouter = require('./routes/depositRouter');
 const { error } = require('console');
 
 app.use(express.json());
 app.use(cors());               
 app.use(express.urlencoded({extended: true}));
 
-// app.use('/role', roleRouter);
-// app.use('/userlog', userLogRouter);
-// app.use('/user', userRouter);
-// app.use('/bankAccount', bankAccountRouter);
-// app.use('/transaction', transactionRouter);
-
 app.use('/api/role', roleRouter);
 app.use('/api/userlog', userLogRouter);
 app.use('/api/user', userRouter);
 app.use('/api/bankAccount', bankAccountRouter);
 app.use('/api/transaction', transactionRouter);
+app.use('/api/deposit', deposit)
 
 app.use(express.static(path.join(__dirname,'/client', 'build')));
 
