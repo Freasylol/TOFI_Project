@@ -50,6 +50,30 @@ const DashBoard = observer(() => {
 
     const {user} = useContext(Context);
 
+    const preventDefault = event => event.preventDefault();
+
+    const theme = useTheme();
+
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
+    const[openLogInDialog, setOpenLogInDialog] = React.useState(false);
+
+    const[openSignUpDialog, setOpenSignUpDialog] = React.useState(false);
+
+    const[openMenu, setOpenMenu] = React.useState(false);
+
+    const handleOpenMenu = () => setOpenMenu(true);
+
+    const handleCloseMenu = () => setOpenMenu(false);
+
+    const handleOpenLogInDialog = () => setOpenLogInDialog(true);
+
+    const handleCloseLogInDialog = () => setOpenLogInDialog(false);
+
+    const handleOpenSignUpDialog = () => setOpenSignUpDialog(true);
+    
+    const handleCloseSignUpDialog = () => setOpenSignUpDialog(false);
+
     return (
     <div className={classes.project}>
         

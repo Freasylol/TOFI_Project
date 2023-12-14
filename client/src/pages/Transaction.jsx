@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import {makeStyles} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 import { Context } from '../index';
 import {observer} from 'mobx-react-lite';
 import ObjectItem from './ObjectItem';
-// import Menu from './Menu';
 
 const useStyles = makeStyles((theme) => ({
     test: {
@@ -23,8 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
         cursor: 'pointer',
 
-        // paddingTop: '50px',
-
         borderRadius: '60px',
         width: '180px'
     },
@@ -34,16 +31,20 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const Profile = observer(() => {
+const Transaction = observer(() => {
     const classes = useStyles();
 
-    const {user} = useContext(Context); 
+    const {object} = useContext(Context);
 
     return (
         <div className={classes.test}>    
-            <ObjectItem key={user.user.id} message={'Profile'} object={user.user}></ObjectItem>    
+            <div>
+               {object.transactions.map(deposit => {
+                    return <ObjectItem key={deposit.id} message={'Transaction'} object={deposit}></ObjectItem>
+               })}
+            </div>
         </div>
     )
 })
 
-export default Profile
+export default Transaction

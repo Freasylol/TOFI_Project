@@ -40,16 +40,16 @@ function Main() {
 
     return (
         <div className={classes.test}>    
-            <button className={classes.signUpButton}>
+            {/* <button className={classes.signUpButton}>
                 <div className={classes.signUpButtonText}>
                     Make a deposit
                 </div>
-            </button>
-
+            </button> */}
             <NavLink className={classes.navLinkStyle} to="/deposit">Make a deposit</NavLink>
             <NavLink className={classes.navLinkStyle} to="/credit">Make a credit</NavLink>
             <NavLink className={classes.navLinkStyle} to="/profile">My profile</NavLink>
             <NavLink className={classes.navLinkStyle} to="/aim">Create new aim</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/transaction">Transactions</NavLink>
         </div>
     )
 }

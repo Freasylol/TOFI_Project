@@ -97,7 +97,7 @@ const LoginForm = observer(() => {
     const submitLogin = async (e) => {
         e.preventDefault();
             try {
-            const {data} = await Axios.post('http://localhost:3001/user/login', {
+            const {data} = await Axios.post('http://localhost:3001/api/user/login', {
                 email: email,
                 password: password,
             })
@@ -110,18 +110,18 @@ const LoginForm = observer(() => {
     const submitAuth = async (e) => {
         e.preventDefault();
         try {
-            await Axios.post('http://localhost:3001/user/verify', {
+            await Axios.post('http://localhost:3001/api/user/verify', {
                 message: auth,
-            }).then((data) => {
+            }).then(async (data) => {
                 console.log(data);
                 localStorage.setItem('token', token)
                 let jwtData = jwtDecode(token);
                 user.setIsAuth(true);
-                user.setUser(jwtData);
-                // const userData = jwtDecode(data.data);
-                // user.setUser(userData);
-                // user.setIsAuth(true);
-                // console.log(user);
+                console.log('jwt data');
+                console.log(jwtData);
+                const userData = await Axios.get(`http://localhost:3001/api/user/${jwtData.id}`);
+                console.log(userData.data);
+                user.setUser(userData.data);
             })
         } catch(error) {
             console.log(error);

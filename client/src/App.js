@@ -17,17 +17,6 @@ function App() {
   return (
     <div className="App">
       <DashBoard />
-      {/* <Router>
-          <Switch>
-              <Route path="/" exact component={Main} />
-              <Route path="/admin" exact component={Admin} />
-              <Route path="/shop" exact component={Shop} />
-              <Route path="/deposit" exact component={Deposit} />
-              <Route path="/credit" exact component={Credit} />
-              <Route path="/profile" exact component={Profile} />
-              <Route path="/aim" exact component={Aim} />
-          </Switch>
-      </Router> */}
         <BrowserRouter>
             <AppRouter />
         </BrowserRouter>

@@ -20,11 +20,6 @@ const start = async () => {
 
 start();
 
-// const userRouter = require('./routes/userRouter');
-// const deviceRouter = require('./routes/deviceRouter');
-// const typeRouter = require('./routes/typeRouter');
-// const brandRouter = require('./routes/brandRouter');
-// const basketRouter = require('./routes/basketRouter');
 const roleRouter = require('./routes/roleRouter');
 const userLogRouter = require('./routes/userLogRouter');
 const userRouter = require('./routes/userRouter');
@@ -36,11 +31,17 @@ app.use(express.json());
 app.use(cors());               
 app.use(express.urlencoded({extended: true}));
 
-app.use('/role', roleRouter);
-app.use('/userlog', userLogRouter);
-app.use('/user', userRouter);
-app.use('/bankAccount', bankAccountRouter);
-app.use('/transaction', transactionRouter);
+// app.use('/role', roleRouter);
+// app.use('/userlog', userLogRouter);
+// app.use('/user', userRouter);
+// app.use('/bankAccount', bankAccountRouter);
+// app.use('/transaction', transactionRouter);
+
+app.use('/api/role', roleRouter);
+app.use('/api/userlog', userLogRouter);
+app.use('/api/user', userRouter);
+app.use('/api/bankAccount', bankAccountRouter);
+app.use('/api/transaction', transactionRouter);
 
 app.use(express.static(path.join(__dirname,'/client', 'build')));
 
