@@ -52,7 +52,7 @@ function Main() {
             <NavLink className={classes.navLinkStyle} to="/transaction">Transactions</NavLink>
             <NavLink className={classes.navLinkStyle} to="/makeTransaction">Create a transaction</NavLink>
             <NavLink className={classes.navLinkStyle} to="/bankAccount">My BankAccounts</NavLink>
-
+            <NavLink className={classes.navLinkStyle} to="/createCredit">Create a credit</NavLink>
         </div>
     )
 }

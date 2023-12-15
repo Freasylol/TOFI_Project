@@ -7,3 +7,4 @@ export const DEPOSIT_ROUTE = '/deposit';
 export const TRANSACTION_ROUTE = '/transaction';
 export const MAKE_TRANSACTION_ROUTE = '/makeTransaction';
 export const BANK_ACCOUNT_ROUTE = '/bankAccount';
+export const CREATE_CREDIT_ROUTE = '/createCredit';

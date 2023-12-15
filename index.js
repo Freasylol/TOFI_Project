@@ -34,11 +34,12 @@ app.use(cors());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/api/role', roleRouter);
-app.use('/api/userlog', userLogRouter);
+app.use('/api/userLog', userLogRouter);
 app.use('/api/user', userRouter);
 app.use('/api/bankAccount', bankAccountRouter);
 app.use('/api/transaction', transactionRouter);
-app.use('/api/deposit', deposit)
+app.use('/api/credit', creditRouter);
+app.use('/api/deposit', depositRouter);
 
 app.use(express.static(path.join(__dirname,'/client', 'build')));
 

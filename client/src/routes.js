@@ -4,10 +4,11 @@ import BankAccount from "./pages/BankAccount";
 import Credit from "./pages/Credit";
 import Deposit from "./pages/Deposit";
 import Main from "./pages/Main";
+import MakeCredit from "./pages/MakeCredit";
 import MakeTransaction from "./pages/MakeTransaction";
 import Profile from "./pages/Profile";
 import Transaction from "./pages/Transaction";
-import { ADMIN_ROUTE, AIM_ROUTE, CREDIT_ROUTE, DEPOSIT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, TRANSACTION_ROUTE, MAKE_TRANSACTION_ROUTE,BANK_ACCOUNT_ROUTE } from "./utils/consts"
+import { ADMIN_ROUTE, AIM_ROUTE, CREDIT_ROUTE, DEPOSIT_ROUTE, MAIN_ROUTE, PROFILE_ROUTE, TRANSACTION_ROUTE, MAKE_TRANSACTION_ROUTE,BANK_ACCOUNT_ROUTE, CREATE_CREDIT_ROUTE } from "./utils/consts"
 
 export const authRoutes = [
     {
@@ -41,6 +42,10 @@ export const authRoutes = [
     {
         path: BANK_ACCOUNT_ROUTE,
         Component: BankAccount
+    },
+    {
+        path: CREATE_CREDIT_ROUTE,
+        Component: MakeCredit
     }
 ]
 

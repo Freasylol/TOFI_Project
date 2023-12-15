@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const MakeTransaction = observer(() => {
+const MakeCredit = observer(() => {
     const classes = useStyles();
 
     const {user} = useContext(Context);
@@ -72,6 +72,8 @@ const MakeTransaction = observer(() => {
 
     const [sum, setSum] = useState('');
     const [date, setDate] = useState('');
+    const [term, setTerm] = useState('');
+    
     const [DestinationBankAccountId, setDestinationBankAccountId] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
@@ -79,38 +81,55 @@ const MakeTransaction = observer(() => {
         setSelectedOption(event.target.value);
     }
 
-    const createTransaction = async (e) => {
-        e.preventDefault();
-        let today = new Date();
-            try {
-            console.log('destination');
-            console.log(DestinationBankAccountId);
-            const destinationBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${DestinationBankAccountId}`);
-            console.log('Destination bank account');
-            console.log(destinationBankAccountData.data);
-            const senderBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${user.user.id}`);
-            console.log('User id');
-            console.log(`${user.user.id}`);
-            console.log('Sender bank account');
-            console.log(senderBankAccountData.data);
-            await Axios.post('http://localhost:3001/api/transaction', {
-                sum: Number(sum),
-                date: '2023-12-15',
-                DestinationBankAccountId: Number(destinationBankAccountData.data[0].id),
-                SenderBankAccountId: Number(senderBankAccountData.data[0].id)
-            })
-        } catch(error) {
-            console.log(error);
-        }
+
+
+    const createAnuitentCredit = async (e) => {
+        let sum = 1000;
+        let percent = 9;
+        let term = 12;
+        let mouthPercent = percent / (100 * term);
+        let mouthPay = (sum * (mouthPercent / (1 - (1 + mouthPercent)**(-12)))).toFixed(2);
+        console.log(sum);
+        console.log(mouthPercent);
+        console.log(mouthPay);
     }
+
+    const createDiffCredit = async (e) => {
+        let sum = 20000;
+        let percent = 9;
+        let term = 12;
+        let mouthDebt = sum / term;
+        let mouthPercent = (sum * (percent / 100) * 31) / 365
+        let mouthPay = (mouthDebt + mouthPercent).toFixed(2);
+        console.log(sum);
+        console.log(mouthDebt);
+        console.log(mouthPercent);
+        console.log(mouthPay);
+    }
+
+    // const createTransaction = async (e) => {
+    //     e.preventDefault();
+    //     let today = new Date();
+    //         try {
+    //         const bankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${user.user.id}`);
+    //         await Axios.post('http://localhost:3001/api/transaction', {
+    //             sum: Number(sum),
+    //             date: today,
+    //             DestinationBankAccountId: DestinationBankAccountId,
+    //             SenderBankAccountId: bankAccountData.data[0].accountId
+    //         })
+    //     } catch(error) {
+    //         console.log(error);
+    //     }
+    // }
 
     const preventDefault = event => event.preventDefault();
 
     return (
     <div className={classes.project}>
-        <form className={classes.test} onSubmit={createTransaction}>
+        <form className={classes.test}>
             <div>
-                Make A transaction
+                Create a credit
             </div>
             <div>
                 <label className={classes.singUpLabel}>Sum</label>
@@ -150,10 +169,9 @@ const MakeTransaction = observer(() => {
                     ))}
                 </select>
             </div>
-            {/* <Dropdown /> */}
-            <button type="submit" className={classes.signUpButton}>
+            <button type="submit" className={classes.signUpButton} onClick={createDiffCredit}>
                 <div className={classes.signUpButtonText}>
-                    Create transaction
+                    Create credit
                 </div>
             </button>
         </form>
@@ -161,4 +179,4 @@ const MakeTransaction = observer(() => {
     )
 })
 
-export default MakeTransaction;
+export default MakeCredit;

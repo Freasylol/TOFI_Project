@@ -6,7 +6,6 @@ import bankIcon from '../images/money-bags.png';
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index.js";
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -74,7 +73,6 @@ const DashBoard = observer(() => {
         <Container className={classes.container}>
             <div className={classes.overlay} />
             <Toolbar className={classes.navBarContainer}>
-                
                     <div className={classes.leftNavBar}>
                         <Link href="/" className={[classes.leftNavBarText, classes.link]}>Bank App</Link>
                         <img src={bankIcon} height={30} alt="Bank App Icon"></img>
@@ -84,7 +82,6 @@ const DashBoard = observer(() => {
             </Toolbar>
         </Container>
     </div>
-    
     )
 })
 

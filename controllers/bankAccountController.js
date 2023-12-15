@@ -1,4 +1,6 @@
 const {BankAccount} = require('../models/models');
+var uuid = require('node-uuid');
+const { Sequelize } = require('sequelize');
 
 class BankAccountController {
     async getAll(req, res) {
@@ -17,8 +19,22 @@ class BankAccountController {
         return res.json(bankAccount);
     }
 
+    async findBankAccountByAccountId(req,res) {
+        const accountId = req.params.accountId;
+        console.log(accountId);
+        const bankAccount = await BankAccount.findAll(
+            {
+                where: {
+                    accountId: Sequelize.fn('uuid', accountId)
+                    }
+            }
+        )
+
+        return res.json(bankAccount);
+    }
+
     async findBankAccountByUserid(req, res) {
-        const userId = Number(req.params.userId);
+        const userId = req.params.userId;
         const bankAccount = await BankAccount.findAll(
             {
                 where: {

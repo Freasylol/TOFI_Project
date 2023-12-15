@@ -23,9 +23,9 @@ const UserLog = sequelize.define('user_log', {
 })
 
 const BankAccount = sequelize.define('bank_account', {
-    accountId: {type: DataTypes.UUID, defaultValue: sequelize.literal('uuid_generate_v4()'), allowNull: false, primaryKey: true},
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    accountId: {type: DataTypes.UUID, defaultValue: sequelize.literal('uuid_generate_v4()'), allowNull: false},
     balance: {type: DataTypes.INTEGER},
-    
 })
 
 const Deposit = sequelize.define('deposit', {
@@ -40,8 +40,10 @@ const Credit = sequelize.define('credit', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     sum: {type: DataTypes.DOUBLE},
     date: {type: DataTypes.DATE},
-    term: {type: DataTypes.DATE},
-    procent: {type: DataTypes.DOUBLE},
+    term: {type: DataTypes.INTEGER},
+    percent: {type: DataTypes.DOUBLE},
+    debt: {type: DataTypes.DOUBLE},
+    type: {type: DataTypes.STRING}
 })
 
 const Transaction = sequelize.define('transaction', {

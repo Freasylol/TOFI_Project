@@ -7,7 +7,8 @@ class CreditController {
 
     // async createAnnuitentCredit(req, res) {
     //     const {creditSize, percent, term, type, date, bankAccountId} = req.body;
-    //     const credit = await credit  
+    //     const credit = await Credit.create({})
+    //     return res.json(credit);
     // }
 
     async createOne(req, res) {
@@ -38,4 +39,4 @@ class CreditController {
     }
 }
 
-module.exports = new DepositController();
+module.exports = new CreditController();

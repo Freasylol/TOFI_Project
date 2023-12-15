@@ -9,12 +9,11 @@ class TransactionController {
 
     async createOne(req, res, next) {
         const {sum, date, DestinationBankAccountId, SenderBankAccountId} = req.body;
-        const destinationAcc = await BankAccount.findOne({where: {accountId: req.body.DestinationBankAccountId}});
-        const senderAcc = await BankAccount.findOne({where: {accountId: req.body.SenderBankAccountId}});
+        const destinationAcc = await BankAccount.findOne({where: {id: req.body.DestinationBankAccountId}});
+        const senderAcc = await BankAccount.findOne({where: {id: req.body.SenderBankAccountId}});
 
         console.log(destinationAcc.balance);
         console.log(senderAcc.balance);
-
 
         if (destinationAcc === null) {
             return next(ApiError.badRequest('Destination acc does not exist'));
@@ -32,10 +31,10 @@ class TransactionController {
         await senderAcc.save();
         await destinationAcc.save();
 
-        let sendId = senderAcc.accountId;
-        let destId = destinationAcc.accountId;
+        let sendId = senderAcc.id;
+        let destId = destinationAcc.id;
         
-        const transaction = await Transaction.create({sum, date, destId, sendId});
+        const transaction = await Transaction.create({sum, date, DestinationBankAccountId, SenderBankAccountId});
 
         return res.json(transaction);
     }
