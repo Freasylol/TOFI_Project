@@ -9,7 +9,8 @@ export default class DeviceStore {
             {id: 1, minSum: 100 , percent: 4}
         ]
         this._creditTypes = [
-            {id: 1, minSum: 100, percent: 9}
+            {id: 1, minSum: 100, minTerm: 3, percent: 9, name: 'Annuity'},
+            {id: 2, minSum: 100, minTerm: 3, percent: 9, name: 'Differential'}
         ];
         this._credits = [
             {id: 1, sum: 100, date: '2023-12-11', term: '2024-12-11', percent: 10, minSum: 100}

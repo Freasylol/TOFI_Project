@@ -70,19 +70,6 @@ const MakeCredit = observer(() => {
 
     const {object} = useContext(Context);
 
-    const [sum, setSum] = useState('');
-    const [date, setDate] = useState('');
-    const [term, setTerm] = useState('');
-    
-    const [DestinationBankAccountId, setDestinationBankAccountId] = useState('');
-    const [selectedOption, setSelectedOption] = useState('');
-
-    const handleSelectChange = (event) => {
-        setSelectedOption(event.target.value);
-    }
-
-
-
     const createAnuitentCredit = async (e) => {
         let sum = 1000;
         let percent = 9;
@@ -94,34 +81,49 @@ const MakeCredit = observer(() => {
         console.log(mouthPay);
     }
 
-    const createDiffCredit = async (e) => {
-        let sum = 20000;
-        let percent = 9;
-        let term = 12;
-        let mouthDebt = sum / term;
-        let mouthPercent = (sum * (percent / 100) * 31) / 365
-        let mouthPay = (mouthDebt + mouthPercent).toFixed(2);
-        console.log(sum);
-        console.log(mouthDebt);
-        console.log(mouthPercent);
-        console.log(mouthPay);
+    const [sum, setSum] = useState('');
+    const [term, setTerm] = useState('');
+    const [selectedOption, setSelectedOption] = useState('');
+
+    const handleSelectChange = (event) => {
+        setSelectedOption(event.target.value);
     }
 
-    // const createTransaction = async (e) => {
-    //     e.preventDefault();
-    //     let today = new Date();
-    //         try {
-    //         const bankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${user.user.id}`);
-    //         await Axios.post('http://localhost:3001/api/transaction', {
-    //             sum: Number(sum),
-    //             date: today,
-    //             DestinationBankAccountId: DestinationBankAccountId,
-    //             SenderBankAccountId: bankAccountData.data[0].accountId
-    //         })
-    //     } catch(error) {
-    //         console.log(error);
-    //     }
-    // }
+    const createDiffCredit = async (e) => {
+        e.preventDefault();
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
+        try {
+            const senderBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${selectedOption}`);
+
+            await Axios.post('http://localhost:3001/api/credit', {
+                sum: Number(sum),
+                date: formattedDate,
+                term: term,
+                percent: 9,
+                debt: Number(sum),
+                type: 'Annuity',
+                bankAccountId: senderBankAccountData.data[0].id,
+            })
+        } catch(e) {
+            console.log(e);
+        }   
+        
+        // let sum = 20000;
+        // let percent = 9;
+        // let term = 12;
+        // let mouthDebt = sum / term;
+        // let mouthPercent = (sum * (percent / 100) * 31) / 365
+        // let mouthPay = (mouthDebt + mouthPercent).toFixed(2);
+        // console.log(sum);
+        // console.log(mouthDebt);
+        // console.log(mouthPercent);
+        // console.log(mouthPay);
+    }
 
     const preventDefault = event => event.preventDefault();
 
@@ -142,21 +144,11 @@ const MakeCredit = observer(() => {
                 </input>
             </div>
             <div>
-                <label className={classes.singUpLabel}>Date</label>
+                <label className={classes.singUpLabel}>Term</label>
                 <input 
                     type="text" 
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className={classes.signUpInput}
-                    required>
-                </input>
-            </div>
-            <div>
-                <label className={classes.singUpLabel}>DestinationBankAccountId</label>
-                <input 
-                    type="text" 
-                    value={DestinationBankAccountId}
-                    onChange={(e) => setDestinationBankAccountId(e.target.value)}
+                    value={term}
+                    onChange={(e) => setTerm(e.target.value)}
                     className={classes.signUpInput}
                     required>
                 </input>

@@ -39,7 +39,7 @@ const Deposit = sequelize.define('deposit', {
 const Credit = sequelize.define('credit', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     sum: {type: DataTypes.DOUBLE},
-    date: {type: DataTypes.DATE},
+    creditId: {type: DataTypes.UUID, defaultValue: sequelize.literal('uuid_generate_v4()'), allowNull: false},
     term: {type: DataTypes.INTEGER},
     percent: {type: DataTypes.DOUBLE},
     debt: {type: DataTypes.DOUBLE},

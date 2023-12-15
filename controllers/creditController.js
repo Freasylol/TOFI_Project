@@ -12,8 +12,8 @@ class CreditController {
     // }
 
     async createOne(req, res) {
-        const {sum, date, term, percent, bankAccountId} = req.body;
-        const credit = await Credit.create({sum, date, term, percent, bankAccountId});
+        const {sum, date, term, percent, debt, type, bankAccountId} = req.body;
+        const credit = await Credit.create({sum, date, term, percent, debt, type, bankAccountId});
         return res.json(credit);
     }
 
@@ -25,8 +25,8 @@ class CreditController {
 
     async updateOne(req, res) {
         const id = Number(req.params.id);
-        const {sum, date, term, percent, bankAccountId} = req.body;
-        const credit = await Credit.update({sum, date, term, percent, bankAccountId}, {where: {id: id}});
+        const {sum, date, term, percent, debt, type, bankAccountId} = req.body;
+        const credit = await Credit.update({sum, date, term, percent, debt, type, bankAccountId}, {where: {id: id}});
         return res.json(credit);
     }
 

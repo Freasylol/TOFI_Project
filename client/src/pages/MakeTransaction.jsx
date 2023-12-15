@@ -71,7 +71,6 @@ const MakeTransaction = observer(() => {
     const {object} = useContext(Context);
 
     const [sum, setSum] = useState('');
-    const [date, setDate] = useState('');
     const [DestinationBankAccountId, setDestinationBankAccountId] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
 
@@ -81,21 +80,27 @@ const MakeTransaction = observer(() => {
 
     const createTransaction = async (e) => {
         e.preventDefault();
-        let today = new Date();
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+
+        const formattedDate = `${year}-${month}-${day}`;
+        console.log(formattedDate);
             try {
             console.log('destination');
             console.log(DestinationBankAccountId);
             const destinationBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${DestinationBankAccountId}`);
             console.log('Destination bank account');
             console.log(destinationBankAccountData.data);
-            const senderBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${user.user.id}`);
+            const senderBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${selectedOption}`);
             console.log('User id');
             console.log(`${user.user.id}`);
             console.log('Sender bank account');
             console.log(senderBankAccountData.data);
             await Axios.post('http://localhost:3001/api/transaction', {
                 sum: Number(sum),
-                date: '2023-12-15',
+                date: formattedDate,
                 DestinationBankAccountId: Number(destinationBankAccountData.data[0].id),
                 SenderBankAccountId: Number(senderBankAccountData.data[0].id)
             })
@@ -123,16 +128,6 @@ const MakeTransaction = observer(() => {
                 </input>
             </div>
             <div>
-                <label className={classes.singUpLabel}>Date</label>
-                <input 
-                    type="text" 
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className={classes.signUpInput}
-                    required>
-                </input>
-            </div>
-            <div>
                 <label className={classes.singUpLabel}>DestinationBankAccountId</label>
                 <input 
                     type="text" 
@@ -150,7 +145,6 @@ const MakeTransaction = observer(() => {
                     ))}
                 </select>
             </div>
-            {/* <Dropdown /> */}
             <button type="submit" className={classes.signUpButton}>
                 <div className={classes.signUpButtonText}>
                     Create transaction
