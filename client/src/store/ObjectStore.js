@@ -13,7 +13,7 @@ export default class DeviceStore {
             {id: 2, minSum: 100, minTerm: 3, percent: 9, name: 'Differential'}
         ];
         this._credits = [
-            {id: 1, sum: 100, date: '2023-12-11', term: '2024-12-11', percent: 10, minSum: 100}
+           
         ]
         this._aims = [
             {id: 1, startSum: 100, finishSum: 400, date: '2023-12-11', bankAccountId: 1, depositId: 1}
@@ -26,11 +26,11 @@ export default class DeviceStore {
     }
 
     setDeposits(deposits) {
-        this._types = deposits
+        this._deposits = deposits
     }
     
     setCredits(credits) {
-        this._brands = credits
+        this._credits = credits;
     }
 
     setAims(aims) {

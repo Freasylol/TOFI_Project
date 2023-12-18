@@ -64,7 +64,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const MakeCredit = observer(() => {
+
+    const percent = 12;
     const classes = useStyles();
+
+    const types = ['Annuity', 'Differential'];
 
     const {user} = useContext(Context);
 
@@ -84,6 +88,11 @@ const MakeCredit = observer(() => {
     const [sum, setSum] = useState('');
     const [term, setTerm] = useState('');
     const [selectedOption, setSelectedOption] = useState('');
+    const [selectedType, setSelectedType] = useState('');
+
+    const handleSelectedType = (event) => {
+        setSelectedType(event.target.value);
+    }
 
     const handleSelectChange = (event) => {
         setSelectedOption(event.target.value);
@@ -97,6 +106,43 @@ const MakeCredit = observer(() => {
         const day = String(today.getDate()).padStart(2, '0');
 
         const formattedDate = `${year}-${month}-${day}`;
+
+        // let mouthPercent = percent / (100 * term);
+        // let mouthPay = (sum * (mouthPercent / (1 - (1 + mouthPercent)**(-12)))).toFixed(2);
+        // let totalSum = mouthPay * term;
+        // console.log(totalSum);
+        // console.log(sum);
+        // console.log(mouthPercent);
+        // console.log(mouthPay);
+        let totalSum = 0;
+
+        if (selectedType === 'Differential') {
+            let creditTerm = term;
+            totalSum = 0;
+            let creditSum = sum;
+            let monthDebt = sum / term;
+            let monthPercent = 0;
+            let monthPay = 0;
+            while (creditTerm > 0) {
+                monthPercent = (creditSum * (percent / 100) * 30) / 365
+                monthPay = (monthDebt + monthPercent);
+                console.log(monthPay);
+                totalSum += monthPay;
+                creditSum -= monthDebt;
+                creditTerm--;
+            }
+        } else {
+            let mouthPercent = percent / (100 * term);
+            let mouthPay = (sum * (mouthPercent / (1 - (1 + mouthPercent)**(-12)))).toFixed(2);
+            totalSum = mouthPay * term;
+        } 
+
+        // console.log(sum);
+        // console.log(monthDebt);
+        // console.log(monthPercent);
+        // console.log(monthPay);
+        // console.log(totalSum);
+
         try {
             const senderBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${selectedOption}`);
 
@@ -104,18 +150,25 @@ const MakeCredit = observer(() => {
                 sum: Number(sum),
                 date: formattedDate,
                 term: term,
-                percent: 9,
-                debt: Number(sum),
-                type: 'Annuity',
+                percent: percent,
+                debt: Number(totalSum.toFixed(2)),
+                payed: 0,
+                type: selectedType,
                 bankAccountId: senderBankAccountData.data[0].id,
+                userId: Number(user.user.id)
             })
+
+            const bankAccount = await Axios.get(`http://localhost:3001/api/bankAccount/${senderBankAccountData.data[0].id}`);
+            console.log(bankAccount.data);
+            let balance = bankAccount.data.balance;
+
+            balance += totalSum;
+            await Axios.put(`http://localhost:3001/api/bankAccount/${senderBankAccountData.data[0].id}`, {
+                balance: balance,
+            });
         } catch(e) {
             console.log(e);
-        }   
-        
-        // let sum = 20000;
-        // let percent = 9;
-        // let term = 12;
+        } 
         // let mouthDebt = sum / term;
         // let mouthPercent = (sum * (percent / 100) * 31) / 365
         // let mouthPay = (mouthDebt + mouthPercent).toFixed(2);
@@ -132,6 +185,14 @@ const MakeCredit = observer(() => {
         <form className={classes.test}>
             <div>
                 Create a credit
+            </div>
+            <div>
+                <select value={selectedType} onChange={handleSelectedType}>
+                    <option value="">Select Credit Type</option>
+                    {types.map((type, index) => (
+                        <option key={index} value={type}>{type}</option>
+                    ))}
+                </select>
             </div>
             <div>
                 <label className={classes.singUpLabel}>Sum</label>

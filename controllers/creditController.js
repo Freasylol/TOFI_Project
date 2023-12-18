@@ -1,4 +1,5 @@
-const {Credit} = require('../models/models');
+const {Credit, BankAccount} = require('../models/models');
+const { findBankAccountByUserid } = require('./bankAccountController');
 
 class CreditController {
     async getAll(req, res) {
@@ -12,8 +13,8 @@ class CreditController {
     // }
 
     async createOne(req, res) {
-        const {sum, date, term, percent, debt, type, bankAccountId} = req.body;
-        const credit = await Credit.create({sum, date, term, percent, debt, type, bankAccountId});
+        const {sum, date, term, percent, debt, payed, type, bankAccountId, userId} = req.body;
+        const credit = await Credit.create({sum, date, term, percent, debt, payed, type, bankAccountId, userId});
         return res.json(credit);
     }
 
@@ -25,8 +26,20 @@ class CreditController {
 
     async updateOne(req, res) {
         const id = Number(req.params.id);
-        const {sum, date, term, percent, debt, type, bankAccountId} = req.body;
-        const credit = await Credit.update({sum, date, term, percent, debt, type, bankAccountId}, {where: {id: id}});
+        const {sum, date, term, percent, debt, payed, type, bankAccountId} = req.body;
+        const credit = await Credit.update({sum, date, term, percent, debt, payed, type, bankAccountId, userId}, {where: {id: id}});
+        return res.json(credit);
+    }
+
+    async getCreditByUserId(req, res) {
+        const userId = req.params.userId;
+        let credit = await Credit.findAll(
+            {
+                where: {
+                    userId: userId
+                }
+            }
+        )
         return res.json(credit);
     }
 

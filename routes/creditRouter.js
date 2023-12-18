@@ -3,6 +3,7 @@ const router = new Router();
 const creditController = require('../controllers/creditController');
 
 router.get('/', creditController.getAll);
+router.get('/findByUserId/:userId', creditController.getCreditByUserId);
 router.post('/', creditController.createOne);
 router.get('/:id', creditController.getOne);
 router.put('/:id',creditController.updateOne);

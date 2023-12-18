@@ -5,6 +5,9 @@ import {observer} from 'mobx-react-lite';
 import ObjectItem from './ObjectItem';
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        backgroundColor: 'black'
+    },
     test: {
         paddingTop: '50px',
         backgroundColor: '#0A092E',
@@ -36,11 +39,16 @@ const Credit = observer(() => {
 
     const {object} = useContext(Context);
 
+    let creditsMod = object.credits.map(obj => {
+        let {sum, term, percent, debt, payed, type, creditId} = obj;
+        return {sum, term, percent, debt, payed, type, creditId};
+    })
+
     return (
         <div className={classes.test}>    
             <div>
-               {object.credits.map(credit => {
-                    return <ObjectItem key={credit.id} message={'Deposit'} object={credit}></ObjectItem>
+               {creditsMod.map(credit => {
+                    return <ObjectItem key={credit.id} message={'Credit'} object={credit}></ObjectItem>
                })}
             </div>
         </div>

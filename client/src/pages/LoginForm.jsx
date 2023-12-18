@@ -58,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-
 const LoginForm = observer(() => {
     const classes = useStyles();
     const theme = useTheme();
@@ -121,6 +120,11 @@ const LoginForm = observer(() => {
                 user.setUser(userData.data);
                 const bankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${jwtData.id}`);
                 object.setBankAccounts(bankAccountData.data);
+                console.log(bankAccountData.data);
+                const creditData = await Axios.get(`http://localhost:3001/api/credit/findByUserId/${user.user.id}`);
+                object.setCredits(creditData.data);
+                console.log(creditData.data);
+                // console.log(object.credits);  
             })
         } catch(error) {
             console.log(error);

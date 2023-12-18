@@ -13,7 +13,6 @@ import AppRouter from './components/AppRouter';
 
 function App() {
 
-  // console.log(user)
   return (
     <div className="App">
       <DashBoard />

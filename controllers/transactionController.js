@@ -8,7 +8,7 @@ class TransactionController {
     }
 
     async createOne(req, res, next) {
-        const {sum, date, DestinationBankAccountId, SenderBankAccountId} = req.body;
+        const {sum, date, DestinationBankAccountId, SenderBankAccountId, userId} = req.body;
         const destinationAcc = await BankAccount.findOne({where: {id: req.body.DestinationBankAccountId}});
         const senderAcc = await BankAccount.findOne({where: {id: req.body.SenderBankAccountId}});
 
@@ -34,7 +34,7 @@ class TransactionController {
         let sendId = senderAcc.id;
         let destId = destinationAcc.id;
         
-        const transaction = await Transaction.create({sum, date, DestinationBankAccountId, SenderBankAccountId});
+        const transaction = await Transaction.create({sum, date, DestinationBankAccountId, SenderBankAccountId, userId});
 
         return res.json(transaction);
     }

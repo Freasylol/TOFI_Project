@@ -48,8 +48,8 @@ class BankAccountController {
 
     async updateOne(req, res) {
         const id = Number(req.params.id);
-        const {balance, userId} = req.body;
-        const bankAccount = await BankAccount.update({balance, userId}, {where: {id: id}});
+        const {balance} = req.body;
+        const bankAccount = await BankAccount.update({balance}, {where: {id: id}});
         return res.json(bankAccount);
     }
 
