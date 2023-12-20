@@ -3,7 +3,6 @@ import { AppBar, Container, IconButton, Toolbar, Button, Typography, Box, makeSt
 import { observer } from 'mobx-react-lite';
 import { Context } from "../index.js";
 import Axios from "axios";
-import Dropdown from './Dropdown.jsx';
 
 const useStyles = makeStyles((theme) => ({
     test: {
@@ -149,14 +148,11 @@ const MakeCredit = observer(() => {
         try {
             const senderBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${selectedOption}`);
 
-            await Axios.post(`${host}/api/credit`, {
+            const deposit = await Axios.post(`${host}/api/deposit`, {
                 sum: Number(sum),
                 date: formattedDate,
                 term: term,
                 percent: percent,
-                debt: Number(totalSum.toFixed(2)),
-                payed: 0,
-                type: selectedType,
                 bankAccountId: senderBankAccountData.data[0].id,
                 userId: Number(user.user.id)
             })
@@ -165,7 +161,7 @@ const MakeCredit = observer(() => {
             console.log(bankAccount.data);
             let balance = bankAccount.data.balance;
 
-            balance += totalSum;
+            balance -= deposit.sum;
             await Axios.put(`${host}/api/bankAccount/${senderBankAccountData.data[0].id}`, {
                 balance: balance,
             });
@@ -187,11 +183,11 @@ const MakeCredit = observer(() => {
     <div className={classes.project}>
         <form className={classes.test}>
             <div>
-                Create a credit
+                Create a deposit
             </div>
             <div>
                 <select value={selectedType} onChange={handleSelectedType}>
-                    <option value="">Select Credit Type</option>
+                    <option value="">Select Deposit Type</option>
                     {types.map((type, index) => (
                         <option key={index} value={type}>{type}</option>
                     ))}
@@ -227,7 +223,7 @@ const MakeCredit = observer(() => {
             </div>
             <button type="submit" className={classes.signUpButton} onClick={createDiffCredit}>
                 <div className={classes.signUpButtonText}>
-                    Create credit
+                    Create deposit
                 </div>
             </button>
         </form>
