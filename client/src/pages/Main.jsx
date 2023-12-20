@@ -45,14 +45,15 @@ function Main() {
                     Make a deposit
                 </div>
             </button> */}
-            <NavLink className={classes.navLinkStyle} to="/deposit">Make a deposit</NavLink>
-            <NavLink className={classes.navLinkStyle} to="/credit">Make a credit</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/deposit">My deposits</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/credit">My credits</NavLink>
             <NavLink className={classes.navLinkStyle} to="/profile">My profile</NavLink>
             <NavLink className={classes.navLinkStyle} to="/aim">Create new aim</NavLink>
             <NavLink className={classes.navLinkStyle} to="/transaction">Transactions</NavLink>
             <NavLink className={classes.navLinkStyle} to="/makeTransaction">Create a transaction</NavLink>
             <NavLink className={classes.navLinkStyle} to="/bankAccount">My BankAccounts</NavLink>
             <NavLink className={classes.navLinkStyle} to="/createCredit">Create a credit</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/createDeposit">Create a deposit</NavLink>
         </div>
     )
 }

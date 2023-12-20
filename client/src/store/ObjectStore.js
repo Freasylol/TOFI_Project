@@ -6,7 +6,7 @@ export default class DeviceStore {
             {id: 1, sum: 100, date: '2023-12-11', term: '2024-12-11', percent: 4, minSum: 100},
         ]
         this._depositTypes = [
-            {id: 1, minSum: 100 , percent: 4}
+            {id: 1, minSum: 100, minTerm: 3, percent: 4, name: 'Fixed'}
         ]
         this._creditTypes = [
             {id: 1, minSum: 100, minTerm: 3, percent: 9, name: 'Annuity'},

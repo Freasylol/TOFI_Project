@@ -88,10 +88,13 @@ const RegistrationForm = observer(() => {
     const [password, setPassword] = useState('');
     const [confirm_password, setConfirmPassword] = useState('');
 
+    // let host = 'http://localhost:3001';
+    let host = 'https://tofi-project.onrender.com';
+
     const submitRegistration = async (e) => {
         e.preventDefault();
         try {
-            await Axios.post('http://localhost:3001/api/user', {
+            await Axios.post(`${host}/api/user`, {
                 first_name: first_name,
                 last_name: last_name, 
                 email: email,

@@ -13,8 +13,8 @@ class CreditController {
     // }
 
     async createOne(req, res) {
-        const {sum, date, term, percent, debt, payed, type, bankAccountId, userId} = req.body;
-        const credit = await Credit.create({sum, date, term, percent, debt, payed, type, bankAccountId, userId});
+        const {sum, date, term, percent, debt, payed, type, bankAccountId, userId, body} = req.body;
+        const credit = await Credit.create({sum, date, term, percent, debt, payed, type, bankAccountId, userId, body});
         return res.json(credit);
     }
 
@@ -24,10 +24,17 @@ class CreditController {
         return res.json(credit);
     }
 
+    async updateSum(req, res) {
+        const id = Number(req.params.id);
+        const {payed, body} = req.body;
+        const credit = await Credit.update({payed, body}, {where: {id: id}});
+        return res.json(credit);
+    }
+
     async updateOne(req, res) {
         const id = Number(req.params.id);
-        const {sum, date, term, percent, debt, payed, type, bankAccountId} = req.body;
-        const credit = await Credit.update({sum, date, term, percent, debt, payed, type, bankAccountId, userId}, {where: {id: id}});
+        const {sum, date, term, percent, debt, payed, type, bankAccountId, body} = req.body;
+        const credit = await Credit.update({sum, date, term, percent, debt, payed, type, bankAccountId, userId, body}, {where: {id: id}});
         return res.json(credit);
     }
 

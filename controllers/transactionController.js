@@ -12,8 +12,8 @@ class TransactionController {
         const destinationAcc = await BankAccount.findOne({where: {id: req.body.DestinationBankAccountId}});
         const senderAcc = await BankAccount.findOne({where: {id: req.body.SenderBankAccountId}});
 
-        console.log(destinationAcc.balance);
-        console.log(senderAcc.balance);
+        // console.log(destinationAcc.balance);
+        // console.log(senderAcc.balance);
 
         if (destinationAcc === null) {
             return next(ApiError.badRequest('Destination acc does not exist'));
@@ -53,6 +53,9 @@ class TransactionController {
     async getOne(req, res) {
         const id = Number(req.params.id);
         const transaction = await Transaction.findOne({where: {id: id}});
+        if (!transaction) {
+            next(ApiError.badRequest('Destination acc does not exist'))
+        }
         return res.json(transaction);
     }
 

@@ -78,6 +78,9 @@ const MakeTransaction = observer(() => {
         setSelectedOption(event.target.value);
     }
 
+    // let host = 'http://localhost:3001';
+    let host = 'https://tofi-project.onrender.com';
+
     const createTransaction = async (e) => {
         e.preventDefault();
         const today = new Date();
@@ -90,19 +93,20 @@ const MakeTransaction = observer(() => {
             try {
             console.log('destination');
             console.log(DestinationBankAccountId);
-            const destinationBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${DestinationBankAccountId}`);
+            const destinationBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${DestinationBankAccountId}`);
             console.log('Destination bank account');
             console.log(destinationBankAccountData.data);
-            const senderBankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByAccountId/${selectedOption}`);
+            const senderBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${selectedOption}`);
             console.log('User id');
             console.log(`${user.user.id}`);
             console.log('Sender bank account');
             console.log(senderBankAccountData.data);
-            await Axios.post('http://localhost:3001/api/transaction', {
+            await Axios.post(`${host}/api/transaction`, {
                 sum: Number(sum),
                 date: formattedDate,
                 DestinationBankAccountId: Number(destinationBankAccountData.data[0].id),
-                SenderBankAccountId: Number(senderBankAccountData.data[0].id)
+                SenderBankAccountId: Number(senderBankAccountData.data[0].id),
+                userId: Number(`${user.user.id}`)
             })
         } catch(error) {
             console.log(error);

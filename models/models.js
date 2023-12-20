@@ -44,7 +44,8 @@ const Credit = sequelize.define('credit', {
     payed: {type: DataTypes.DOUBLE},
     percent: {type: DataTypes.DOUBLE},
     debt: {type: DataTypes.DOUBLE},
-    type: {type: DataTypes.STRING}
+    type: {type: DataTypes.STRING},
+    body: {type: DataTypes.DOUBLE}
 })
 
 const Transaction = sequelize.define('transaction', {

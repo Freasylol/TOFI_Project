@@ -65,9 +65,6 @@ const useStyles = makeStyles((theme) => ({
 
 const MakeCredit = observer(() => {
 
-    // let host = 'http://localhost:3001';
-    let host = 'https://tofi-project.onrender.com';
-
     const percent = 12;
     const classes = useStyles();
 
@@ -87,6 +84,9 @@ const MakeCredit = observer(() => {
         console.log(mouthPercent);
         console.log(mouthPay);
     }
+
+    // let host = 'http://localhost:3001';
+    let host = 'https://tofi-project.onrender.com';
 
     const [sum, setSum] = useState('');
     const [term, setTerm] = useState('');
@@ -147,7 +147,7 @@ const MakeCredit = observer(() => {
         // console.log(totalSum);
 
         try {
-            const senderBankAccountData = await Axios.get(`${host}http://localhost:3001/api/bankAccount/findByAccountId/${selectedOption}`);
+            const senderBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${selectedOption}`);
 
             await Axios.post(`${host}/api/credit`, {
                 sum: Number(sum),
@@ -158,11 +158,10 @@ const MakeCredit = observer(() => {
                 payed: 0,
                 type: selectedType,
                 bankAccountId: senderBankAccountData.data[0].id,
-                userId: Number(user.user.id),
-                body: Number(sum)
+                userId: Number(user.user.id)
             })
 
-            const bankAccount = await Axios.get(`${host}/api/bankAccount/${senderBankAccountData.data[0].id}`);
+            const bankAccount = await Axios.get(`http://localhost:3001/api/bankAccount/${senderBankAccountData.data[0].id}`);
             console.log(bankAccount.data);
             let balance = bankAccount.data.balance;
 

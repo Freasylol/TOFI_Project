@@ -80,6 +80,12 @@ const LoginForm = observer(() => {
         handleOpenAuthDialog();
     }
 
+    // const requestPath = 'http://localhost:3001';
+    const requestPath = 'https://tofi-project.onrender.com';
+
+    const remoteRequestPath = 'https://tofi-project.onrender.com';
+    // const remoteRequestPath = 'https://tofi-project.onrender.com';
+    
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const[openLogInDialog, setOpenLogInDialog] = useState(false);
@@ -94,9 +100,10 @@ const LoginForm = observer(() => {
     const [token, setToken] = useState('');
 
     const submitLogin = async (e) => {
+        console.log(process.env.REACT_APP_API_URL);
         e.preventDefault();
             try {
-            const {data} = await Axios.post('http://localhost:3001/api/user/login', {
+            const {data} = await Axios.post(`${requestPath}/api/user/login`, {
                 email: email,
                 password: password,
             })
@@ -109,19 +116,19 @@ const LoginForm = observer(() => {
     const submitAuth = async (e) => {
         e.preventDefault();
         try {
-            await Axios.post('http://localhost:3001/api/user/verify', {
+            await Axios.post(`${requestPath}/api/user/verify`, {
                 message: auth,
             }).then(async (data) => {
                 console.log(data);
                 localStorage.setItem('token', token)
                 let jwtData = jwtDecode(token);
                 user.setIsAuth(true);
-                const userData = await Axios.get(`http://localhost:3001/api/user/${jwtData.id}`);
+                const userData = await Axios.get(`${requestPath}/api/user/${jwtData.id}`);
                 user.setUser(userData.data);
-                const bankAccountData = await Axios.get(`http://localhost:3001/api/bankAccount/findByUserId/${jwtData.id}`);
+                const bankAccountData = await Axios.get(`${requestPath}/api/bankAccount/findByUserId/${jwtData.id}`);
                 object.setBankAccounts(bankAccountData.data);
                 console.log(bankAccountData.data);
-                const creditData = await Axios.get(`http://localhost:3001/api/credit/findByUserId/${user.user.id}`);
+                const creditData = await Axios.get(`${requestPath}/api/credit/findByUserId/${user.user.id}`);
                 object.setCredits(creditData.data);
                 console.log(creditData.data);
                 // console.log(object.credits);  
@@ -201,5 +208,3 @@ const LoginForm = observer(() => {
 })
 
 export default LoginForm;
-
-
