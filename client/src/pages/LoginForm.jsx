@@ -131,6 +131,9 @@ const LoginForm = observer(() => {
                 const creditData = await Axios.get(`${requestPath}/api/credit/findByUserId/${user.user.id}`);
                 object.setCredits(creditData.data);
                 console.log(creditData.data);
+                const transactionData = await Axios.post(`${requestPath}/api/transaction/findByUserId/${user.user.id}`);
+                object.setTransactions(transactionData.data);
+                console.log(transactionData);
                 // console.log(object.credits);  
             })
         } catch(error) {

@@ -39,6 +39,16 @@ class TransactionController {
         return res.json(transaction);
     }
 
+    async findByUserId(req, res) {
+        const userId = Number(req.params.userId);
+        const transaction = await Transaction.findAll({
+            where: {
+                userId: userId
+            }
+        })
+        return res.json(transaction);
+    }
+
     async findTransactionByBankAccountId(req, res) {
         // const userId = Number(req.params.userId);
         // const transaction = await Transaction.findAll(

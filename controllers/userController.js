@@ -78,20 +78,20 @@ class UserController {
         }
         const token = generateJwt(user.id, user.email, 1);
         const random4Digit = generateRandom4DigitNumber();
-        // sendEmail('sashakorostelev49@gmail.com', 'Two-factor authentication Message', String(random4Digit));
+        sendEmail('lepeshkoroman42@gmail.com', 'Two-factor authentication Message', String(random4Digit));
         console.log(String(random4Digit));
         myVar.setMyVariable(String(random4Digit));
         return res.json(token);
     }
 
-    async verify(req, res) {
+    async verify(req, res, next) {
         if (!myVar) {
             myVar.setMyVariable('');
         }
         if (req.body.message === myVar.getMyVariable()) {
             return res.json('Successful authentication')
         } else {
-            return res.json('Unsuccessful authentication')
+            return next(ApiError.badRequest('Wrong auth'))
         }
     }
 
