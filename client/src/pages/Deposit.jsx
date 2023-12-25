@@ -36,11 +36,21 @@ const Deposit = observer(() => {
 
     const {object} = useContext(Context);
 
+    const getMonthDeposit = async(e) => {
+        e.preventDefault();
+        console.log('Get deposit');
+             
+    }
+
     return (
         <div className={classes.test}>    
             <div>
                {object.deposits.map(deposit => {
-                    return <ObjectItem key={deposit.id} message={'Deposit'} object={deposit}></ObjectItem>
+                    return <div>
+                        <ObjectItem key={deposit.id} message={'Deposit'} object={deposit}></ObjectItem>
+                        <button onClick={getMonthDeposit}>GetMonth Pay</button>
+                    </div>
+                     
                })}
             </div>
         </div>

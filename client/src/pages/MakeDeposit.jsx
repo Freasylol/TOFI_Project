@@ -100,7 +100,7 @@ const MakeCredit = observer(() => {
         setSelectedOption(event.target.value);
     }
 
-    const createDiffCredit = async (e) => {
+    const createDeposit = async (e) => {
         e.preventDefault();
         const today = new Date();
         const year = today.getFullYear();
@@ -153,6 +153,7 @@ const MakeCredit = observer(() => {
                 date: formattedDate,
                 term: term,
                 percent: percent,
+                received_sum: 0,
                 bankAccountId: senderBankAccountData.data[0].id,
                 userId: Number(user.user.id)
             })
@@ -221,7 +222,7 @@ const MakeCredit = observer(() => {
                     ))}
                 </select>
             </div>
-            <button type="submit" className={classes.signUpButton} onClick={createDiffCredit}>
+            <button type="submit" className={classes.signUpButton} onClick={createDeposit}>
                 <div className={classes.signUpButtonText}>
                     Create deposit
                 </div>
