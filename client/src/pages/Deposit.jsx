@@ -39,6 +39,7 @@ const Deposit = observer(() => {
     const getMonthDeposit = async(e) => {
         e.preventDefault();
         console.log('Get deposit');
+        console.log(e.target);
              
     }
 
