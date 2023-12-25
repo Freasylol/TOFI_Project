@@ -39,6 +39,8 @@ const Credit = observer(() => {
     // let host = 'http://localhost:3001';
     let host = 'https://tofi-project.onrender.com'
 
+    let element = document.querySelector('0');
+
     const classes = useStyles();
 
     const {object} = useContext(Context);
@@ -55,6 +57,10 @@ const Credit = observer(() => {
         // <document className="getQuerySelector"></document>
         let type = object.credits[0].type;
         console.log(type);
+
+        if (element) {
+            console.log('bebra');
+        }
         
         if (type === "Differential") {
             console.log('differential');
@@ -103,9 +109,9 @@ const Credit = observer(() => {
             <div>
                {creditsMod.map((credit, index) => {
                     return <div>
-                        <div class={String(index)}>Id: {object.credits[index].id}</div>
+                        <div>Id: {object.credits[index].id}</div>
                         <ObjectItem key={credit.id} message={'Credit'} object={credit}></ObjectItem>
-                        <button onClick={payCredit}>Pay</button>
+                        <button class={String(index)} onClick={payCredit}>Pay</button>
                     </div>
                      
                })}
