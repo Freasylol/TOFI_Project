@@ -30,7 +30,7 @@ const depositRouter = require('./routes/depositRouter');
 const { error } = require('console');
 
 app.use(express.json());
-app.use(cors());               
+// app.use(cors());               
 app.use(express.urlencoded({extended: true}));
 
 app.use('/api/role', roleRouter);
