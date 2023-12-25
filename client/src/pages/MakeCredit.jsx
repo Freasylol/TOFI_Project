@@ -147,7 +147,7 @@ const MakeCredit = observer(() => {
         // console.log(totalSum);
 
         try {
-            const senderBankAccountData = await Axios.get(`${host}http://localhost:3001/api/bankAccount/findByAccountId/${selectedOption}`);
+            const senderBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${selectedOption}`);
 
             await Axios.post(`${host}/api/credit`, {
                 sum: Number(sum),

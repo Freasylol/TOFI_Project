@@ -102,48 +102,13 @@ const MakeCredit = observer(() => {
 
     const createDeposit = async (e) => {
         e.preventDefault();
+
         const today = new Date();
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
         const day = String(today.getDate()).padStart(2, '0');
 
         const formattedDate = `${year}-${month}-${day}`;
-
-        // let mouthPercent = percent / (100 * term);
-        // let mouthPay = (sum * (mouthPercent / (1 - (1 + mouthPercent)**(-12)))).toFixed(2);
-        // let totalSum = mouthPay * term;
-        // console.log(totalSum);
-        // console.log(sum);
-        // console.log(mouthPercent);
-        // console.log(mouthPay);
-        let totalSum = 0;
-
-        if (selectedType === 'Differential') {
-            let creditTerm = term;
-            totalSum = 0;
-            let creditSum = sum;
-            let monthDebt = sum / term;
-            let monthPercent = 0;
-            let monthPay = 0;
-            while (creditTerm > 0) {
-                monthPercent = (creditSum * (percent / 100) * 30) / 365
-                monthPay = (monthDebt + monthPercent);
-                console.log(monthPay);
-                totalSum += monthPay;
-                creditSum -= monthDebt;
-                creditTerm--;
-            }
-        } else {
-            let mouthPercent = percent / (100 * term);
-            let mouthPay = (sum * (mouthPercent / (1 - (1 + mouthPercent)**(-12)))).toFixed(2);
-            totalSum = mouthPay * term;
-        } 
-
-        // console.log(sum);
-        // console.log(monthDebt);
-        // console.log(monthPercent);
-        // console.log(monthPay);
-        // console.log(totalSum);
 
         try {
             const senderBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${selectedOption}`);
@@ -158,7 +123,7 @@ const MakeCredit = observer(() => {
                 userId: Number(user.user.id)
             })
 
-            const bankAccount = await Axios.get(`http://localhost:3001/api/bankAccount/${senderBankAccountData.data[0].id}`);
+            const bankAccount = await Axios.get(`${host}/api/bankAccount/${senderBankAccountData.data[0].id}`);
             console.log(bankAccount.data);
             let balance = bankAccount.data.balance;
 

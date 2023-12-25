@@ -34,7 +34,8 @@ const Deposit = sequelize.define('deposit', {
     date: {type: DataTypes.DATE},
     term: {type: DataTypes.DATE},
     percent: {type: DataTypes.DOUBLE},
-    received_sum: {type: DataTypes.DOUBLE}
+    received_sum: {type: DataTypes.DOUBLE},
+    creditType: {type: DataTypes.STRING},
 })
 
 const Credit = sequelize.define('credit', {
