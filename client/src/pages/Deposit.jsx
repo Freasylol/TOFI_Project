@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core';
 import { Context } from '../index';
 import {observer} from 'mobx-react-lite';
 import ObjectItem from './ObjectItem';
+import Axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
     test: {
@@ -32,17 +33,24 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Deposit = observer(() => {
+    // let host = 'http://localhost:3001';
+    let host = 'https://tofi-project.onrender.com';
+
     const classes = useStyles();
 
     const {object} = useContext(Context);
 
     const getMonthDeposit = async(e) => {
         e.preventDefault();
-        console.log('Get deposit');
-        console.log(e.target);
-        console.log(e.target.className);
-        console.log(object.deposits[Number(e.target.className)]);
-        object.deposits[Number(e.target.className)].sum += 2;
+        let num = Number(e.target.className);
+        object.deposits[num].sum += 2;
+        let percent = object.deposits[num].percent;
+        let received_sum = object.deposits[num].received_sum;
+        let plusSum = object.deposits[num] + object.deposits[num] * (percent / 100) ;
+
+        Axios.put(`${host}/api/deposit/receive/1`, {
+            received_sum: Number(received_sum + plusSum),
+        })
     }
 
     return (

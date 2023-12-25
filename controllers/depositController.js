@@ -11,6 +11,13 @@ class DepositController {
         return res.json(deposit);
     }
 
+    async updateDeposit(req, res) {
+        const id = Number(req.params.id);
+        const {received_sum} = req.body;
+        const deposit = await Deposit.update({received_sum}, {where: {id: id}});
+        return res.json(deposit);
+    }
+
     async getOne(req, res) {
         const id = Number(req.params.id);
         const deposit = await Deposit.findOne({where: {id: id}});

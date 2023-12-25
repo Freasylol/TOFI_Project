@@ -37,9 +37,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Credit = observer(() => {
     // let host = 'http://localhost:3001';
-    let host = 'https://tofi-project.onrender.com'
-
-    let element = document.querySelector('0');
+    let host = 'https://tofi-project.onrender.com';
 
     const classes = useStyles();
 
@@ -53,38 +51,34 @@ const Credit = observer(() => {
 
     const payCredit = async(e) => {
         e.preventDefault();
+        let num = Number(e.target.className);
         console.log(e.target);
         // <document className="getQuerySelector"></document>
-        let type = object.credits[0].type;
+        let type = object.credits[num].type;
         console.log(type);
-
-        if (element) {
-            console.log('bebra');
-        }
         
         if (type === "Differential") {
             console.log('differential');
-            let sum = object.credits[0].sum;
-            let body = object.credits[0].body;
-            let term = object.credits[0].term;
-            let payed = object.credits[0].payed;
+            let sum = object.credits[num].sum;
+            let body = object.credits[num].body;
+            let term = object.credits[num].term;
+            let payed = object.credits[num].payed;
             let percent = 12;
             let monthDebt = sum / term;
             let monthPercent = (body * (percent / 100) * 30) / 365;
             let monthPay = (monthDebt + monthPercent);
-            object.credits[0].payed += monthPay;
+            object.credits[num].payed += monthPay;
             payed += monthPay;
             body -= monthPay
             Axios.put(`${host}/api/credit/sum/1`, {
                     payed: Number(payed),
                     body: Number(body)
                 })
-            
         } else {
-            let payed = object.credits[0].payed;
-            let debt = object.credits[0].debt;
-            let term = object.credits[0].term;
-            let body = object.credits[0].body; 
+            let payed = object.credits[num].payed;
+            let debt = object.credits[num].debt;
+            let term = object.credits[num].term;
+            let body = object.credits[num].body; 
             if (payed < debt) {
                 let mouthPay =  debt / term;
                 if (debt - payed < mouthPay) {
@@ -94,13 +88,10 @@ const Credit = observer(() => {
                     payed: payed + Number(mouthPay),
                     body: body - mouthPay
                 })
-
-                object.credits[0].body -= mouthPay
+                object.credits[num].body -= mouthPay
                 console.log(mouthPay);
-                object.credits[0].payed += mouthPay;
+                object.credits[num].payed += mouthPay;
             }
-           
-            
         }       
     }
 
@@ -109,9 +100,8 @@ const Credit = observer(() => {
             <div>
                {creditsMod.map((credit, index) => {
                     return <div>
-                        <div>Id: {object.credits[index].id}</div>
                         <ObjectItem key={credit.id} message={'Credit'} object={credit}></ObjectItem>
-                        <button class={String(index)} onClick={payCredit}>Pay</button>
+                        <button class={index} onClick={payCredit}>Pay</button>
                     </div>
                      
                })}

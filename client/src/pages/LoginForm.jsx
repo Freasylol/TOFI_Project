@@ -134,7 +134,7 @@ const LoginForm = observer(() => {
                 const transactionData = await Axios.post(`${requestPath}/api/transaction/findByUserId/${user.user.id}`);
                 object.setTransactions(transactionData.data);
                 console.log(transactionData);
-                const depositData = await Axios.post(`${requestPath}/api/deposit/findByUserId/${user.user.id}`);
+                const depositData = await Axios.get(`${requestPath}/api/deposit/findByUserId/${user.user.id}`);
                 object.setDeposits(depositData.data);
                 console.log(depositData);
                 // console.log(object.credits);  

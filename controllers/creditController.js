@@ -6,12 +6,6 @@ class CreditController {
         return await Credit.findAll().then(type => res.json(type));
     }
 
-    // async createAnnuitentCredit(req, res) {
-    //     const {creditSize, percent, term, type, date, bankAccountId} = req.body;
-    //     const credit = await Credit.create({})
-    //     return res.json(credit);
-    // }
-
     async createOne(req, res) {
         const {sum, date, term, percent, debt, payed, type, bankAccountId, userId, body} = req.body;
         const credit = await Credit.create({sum, date, term, percent, debt, payed, type, bankAccountId, userId, body});
