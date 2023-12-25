@@ -119,6 +119,7 @@ const MakeCredit = observer(() => {
                 term: term,
                 percent: percent,
                 received_sum: 0,
+                depositType: 'Fixed',
                 bankAccountId: senderBankAccountData.data[0].id,
                 userId: Number(user.user.id)
             })
