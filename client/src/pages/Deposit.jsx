@@ -40,16 +40,18 @@ const Deposit = observer(() => {
         e.preventDefault();
         console.log('Get deposit');
         console.log(e.target);
-             
+        console.log(e.target.className);
+        console.log(object.deposits[Number(e.target.className)]);
+        object.deposits[Number(e.target.className)].sum += 2;
     }
 
     return (
         <div className={classes.test}>    
             <div>
-               {object.deposits.map(deposit => {
+               {object.deposits.map((deposit, index) => {
                     return <div>
                         <ObjectItem key={deposit.id} message={'Deposit'} object={deposit}></ObjectItem>
-                        <button onClick={getMonthDeposit}>GetMonth Pay</button>
+                        <button className={index} onClick={getMonthDeposit}>GetMonth Pay</button>
                     </div>
                      
                })}
