@@ -43,10 +43,21 @@ const Deposit = observer(() => {
     const getMonthDeposit = async(e) => {
         e.preventDefault();
         let num = Number(e.target.className);
-        object.deposits[num].sum += 2;
+        // object.deposits[num].sum += 2;
         let percent = object.deposits[num].percent;
+        let term = object.deposits[num].term;
         let received_sum = object.deposits[num].received_sum;
-        let plusSum = object.deposits[num] + object.deposits[num] * (percent / 100) ;
+        let depositPercent = object.deposits[num].sum * ((percent / 100) / 12);
+        let depositPart = object.deposits[num].sum / term;
+        let plusSum = received_sum + depositPercent + depositPart;
+        object.deposits[num].received_sum += plusSum;
+        console.log(term);
+        console.log(depositPart);
+        console.log(depositPercent);
+        console.log(received_sum);
+        console.log(percent);
+        console.log(plusSum);
+        console.log(received_sum + plusSum);
 
         Axios.put(`${host}/api/deposit/receive/1`, {
             received_sum: Number(received_sum + plusSum),

@@ -32,7 +32,7 @@ const Deposit = sequelize.define('deposit', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     sum: {type: DataTypes.DOUBLE},
     date: {type: DataTypes.DATE},
-    term: {type: DataTypes.DATE},
+    term: {type: DataTypes.INTEGER},
     percent: {type: DataTypes.DOUBLE},
     received_sum: {type: DataTypes.DOUBLE},
     depositType: {type: DataTypes.STRING},
