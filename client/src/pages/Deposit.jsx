@@ -47,8 +47,8 @@ const Deposit = observer(() => {
         let percent = object.deposits[num].percent;
         let term = object.deposits[num].term;
         let received_sum = object.deposits[num].received_sum;
-        let depositPercent = object.deposits[num].sum * ((percent / 100) / 12);
         let depositPart = object.deposits[num].sum / term;
+        let depositPercent = depositPart * (percent / 100);
         let plusSum = received_sum + depositPercent + depositPart;
         object.deposits[num].received_sum += plusSum;
         console.log(term);

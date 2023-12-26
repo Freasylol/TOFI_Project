@@ -162,6 +162,19 @@ const MakeCredit = observer(() => {
                 body: Number(sum)
             })
 
+            object.credits.push({
+                sum: Number(sum),
+                date: formattedDate,
+                term: term,
+                percent: percent,
+                debt: Number(totalSum.toFixed(2)),
+                payed: 0,
+                type: selectedType,
+                bankAccountId: senderBankAccountData.data[0].id,
+                userId: Number(user.user.id),
+                body: Number(sum)
+            });
+
             const bankAccount = await Axios.get(`${host}/api/bankAccount/${senderBankAccountData.data[0].id}`);
             console.log(bankAccount.data);
             let balance = bankAccount.data.balance;

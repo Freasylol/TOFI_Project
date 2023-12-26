@@ -62,27 +62,17 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-const MakeCredit = observer(() => {
+const MakeDeposit = observer(() => {
 
-    const percent = 12;
+    // const percent = 12;
+    let percent = 4;
     const classes = useStyles();
 
-    const types = ['Annuity', 'Differential'];
+    const types = ['Fixed', 'Floating'];
 
     const {user} = useContext(Context);
 
     const {object} = useContext(Context);
-
-    const createAnuitentCredit = async (e) => {
-        let sum = 1000;
-        let percent = 9;
-        let term = 12;
-        let mouthPercent = percent / (100 * term);
-        let mouthPay = (sum * (mouthPercent / (1 - (1 + mouthPercent)**(-12)))).toFixed(2);
-        console.log(sum);
-        console.log(mouthPercent);
-        console.log(mouthPay);
-    }
 
     // let host = 'http://localhost:3001';
     let host = 'https://tofi-project.onrender.com';
@@ -103,6 +93,16 @@ const MakeCredit = observer(() => {
     const createDeposit = async (e) => {
         e.preventDefault();
 
+        if (selectedType == 'Floating') {
+            if (term <= 6) {
+                percent = 3;
+            } else if (term <= 12) {
+                percent = 3.5;
+            } else if (term <= 24) {
+                percent = 4.5;
+            }
+        }
+
         const today = new Date();
         const year = today.getFullYear();
         const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -114,6 +114,17 @@ const MakeCredit = observer(() => {
             const senderBankAccountData = await Axios.get(`${host}/api/bankAccount/findByAccountId/${selectedOption}`);
 
             const deposit = await Axios.post(`${host}/api/deposit`, {
+                sum: Number(sum),
+                date: formattedDate,
+                term: term,
+                percent: percent,
+                received_sum: 0,
+                depositType: selectedType,
+                bankAccountId: senderBankAccountData.data[0].id,
+                userId: Number(user.user.id)
+            })
+
+            object.credits.push({
                 sum: Number(sum),
                 date: formattedDate,
                 term: term,
@@ -135,13 +146,6 @@ const MakeCredit = observer(() => {
         } catch(e) {
             console.log(e);
         } 
-        // let mouthDebt = sum / term;
-        // let mouthPercent = (sum * (percent / 100) * 31) / 365
-        // let mouthPay = (mouthDebt + mouthPercent).toFixed(2);
-        // console.log(sum);
-        // console.log(mouthDebt);
-        // console.log(mouthPercent);
-        // console.log(mouthPay);
     }
 
     const preventDefault = event => event.preventDefault();
@@ -198,4 +202,4 @@ const MakeCredit = observer(() => {
     )
 })
 
-export default MakeCredit;
+export default MakeDeposit;
