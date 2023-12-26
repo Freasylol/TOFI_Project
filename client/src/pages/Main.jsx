@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles} from '@material-ui/core';
 import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
-// import Menu from './Menu';
 
 const useStyles = makeStyles((theme) => ({
     test: {
@@ -44,7 +43,7 @@ function Main() {
             <NavLink className={classes.navLinkStyle} to="/credit">My credits</NavLink>
             <NavLink className={classes.navLinkStyle} to="/profile">My profile</NavLink>
             <NavLink className={classes.navLinkStyle} to="/transaction">My transactions</NavLink>
-            <NavLink className={classes.navLinkStyle} to="/bankAccount">My BankAccounts</NavLink>
+            <NavLink className={classes.navLinkStyle} to="/bankAccount">My bankAccounts</NavLink>
             <NavLink className={classes.navLinkStyle} to="/aim">Create new aim</NavLink>
             <NavLink className={classes.navLinkStyle} to="/makeTransaction">Create a transaction</NavLink>
             <NavLink className={classes.navLinkStyle} to="/createCredit">Create a credit</NavLink>

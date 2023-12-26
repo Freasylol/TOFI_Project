@@ -49,23 +49,6 @@ const Aim = observer(() => {
         let year = 0;
         console.log(sum);
         console.log(desiredSum);
-        
-        // for (let i = 0; i < 5; i++) {
-        //     fixedSum += Number(sum) * (fixedPercent / 100);
-        //     if (year === 1) {
-        //         floatingSum += Number(sum) * (floatingPercent / 100);
-        //     } else {
-        //         floatingPercent = 4.5;
-        //         floatingSum += Number(sum) * (floatingPercent / 100);
-        //     }
-        //     if (fixedSum <= desiredSum || floatingSum <= desiredSum) {
-
-        //     }
-        //     console.log(fixedSum);
-        //     console.log(floatingSum);
-        // }
-       
-        
         while (fixedSum <= desiredSum || floatingSum <= desiredSum) {
             year++;
             fixedSum += sum * (fixedPercent / 100);
@@ -91,7 +74,7 @@ const Aim = observer(() => {
         <div className={classes.project}>
         <form className={classes.test}>
             <div>
-                Get recomendation
+                Get recommendation
             </div>
             <div>
                 <label className={classes.singUpLabel}>Sum</label>

@@ -124,7 +124,7 @@ const MakeDeposit = observer(() => {
                 userId: Number(user.user.id)
             })
 
-            object.credits.push({
+            object.deposits.push({
                 sum: Number(sum),
                 date: formattedDate,
                 term: term,
@@ -139,7 +139,7 @@ const MakeDeposit = observer(() => {
             console.log(bankAccount.data);
             let balance = bankAccount.data.balance;
 
-            balance -= deposit.sum;
+            balance -= deposit.data.sum;
             await Axios.put(`${host}/api/bankAccount/${senderBankAccountData.data[0].id}`, {
                 balance: balance,
             });
